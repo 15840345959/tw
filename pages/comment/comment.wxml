@@ -1,0 +1,31 @@
+<view class="page">
+  <!--页头-->
+  <view class="page__hd"></view>
+  <!--主体-->
+  <view class="page__bd page__bd_spacing">
+    <!--评论-->
+    <view class="weui-cells__title"></view>
+    <view class="weui-cells weui-cells_after-title">
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea bindinput="bindCommentInput" class="weui-textarea" placeholder="用心的评论会推送给作者..." value="{{commentText}}" style="height: 5.8em" />
+          <view class="weui-textarea-counter">{{commentText.length}}/300</view>
+        </view>
+      </view>
+    </view>
+    <view class="margin-top-10">
+      <button class="weui-btn margin-left-10 margin-right-10" type="primary" bindtap="clickComment">评论</button>
+    </view>
+
+
+    <!--默认点评区-->
+    <view class="weui-cells margin-top-15">
+      <block wx:for="{{defComm}}">
+        <view class="weui-cell grey-font" data-comment="{{item}}" bindtap="clickDefComm">
+          {{item}}
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

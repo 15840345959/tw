@@ -1,0 +1,47 @@
+<!--index.wxml-->
+<view class="page">
+  <view id="twInfo" class="cover_content">
+    <image src="{{twInfo.img_s}}" class="twInfo-img" style="width:100%" mode="aspectFill"></image>
+    <view class="settitle font-size-20" data-id="twInfo_title" data-plach="请设置图文标题" data-value="{{twInfo.title}}" bindtap="setInputText">
+      <text wx:if="{{twInfo.title.length>0}}">{{twInfo.title}}</text>
+      <text wx:else>点击设置标题</text>
+    </view>
+    <view class="addIntro font-size-14" data-id="twInfo_intro" data-plach="请编辑故事简介" data-value="{{twInfo.intro}}" data-length="140" bindtap="setInputText">文章简述</view>
+    <view class="editcover font-size-14" bindtap="setTWImg">编辑封面</view>
+  </view>
+
+  <view>
+    <blcok wx:for="{{twStepInfos}}" wx:key="id" wx:for-index="idx" wx:for-item="step">
+
+      <view class="tuwen_con">
+        <view class="tuwen">
+          <image src="../../images/edit_delete.png" style="height:12px;width:12px;position: absolute;left:5px;top:5px;z-index:100;" id="{{idx}}" bindtap="deltunwen" />
+          <view url="" class="weui-media-box weui-media-box_appmsg">
+            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+              <image class="weui-media-box__thumb" src="{{step.img_s}}" style="height:69px;width:69px;" mode="aspectFill" data-step-image-id="{{idx}}" bindtap="changeStepImg" />
+            </view>
+            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+              <view class="weui-media-box__desc margin-left-5" data-id="step_text{{idx}}" data-plach="请设置图文内容" data-length="140" data-value="{{step.text}}" bindtap="setInputText">
+                <text wx:if="{{step.text.length>0}}">{{step.text}}</text>
+                <text wx:else>设置图文内容</text>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="addtuwen" bindtap="addtuwen" id="{{idx}}">
+          <view class="jiahao">+</view>
+        </view>
+      </view>
+    </blcok>
+    <!--设置空白区-->
+    <view style="height:60px;width:100%;background:#f8f8f8;"></view>
+  </view>
+
+  <!--页脚-->
+  <view class="weui-footer weui-footer_fixed-bottom" style="background:#52a341" bindtap="publishTW">
+    <view class="weui-flex" style="width:100%;" class="padding-top-10 padding-bottom-10 white-font font-size-18">
+      发布我的作品
+    </view>
+  </view>
+
+</view>

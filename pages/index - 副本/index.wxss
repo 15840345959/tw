@@ -1,0 +1,14 @@
+/**index.wxss**/
+.page {
+  background-color: #f8f8f8;
+}
+
+.opt-icon-nor-t {
+  width: 26px;
+  height: 26px;
+}
+
+.opt-icon-nor-tb {
+  width: 58px;
+  height: 58px;
+}

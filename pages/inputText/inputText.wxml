@@ -1,0 +1,24 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__hd">
+  </view>
+  <view class="page__bd">
+    <view class="weui-cells__title">{{title}}</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea bindinput="bindInputText" class="weui-textarea font-size-18" placeholder="{{plach}}" style="height: 5.0em" value="{{value}}" />
+          <view class="weui-textarea-counter">{{value.length}}/{{length}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-cells__title margin-top-5" style="display:none;">
+      <image src="../../images/ziti_icon.png" class="opt-icon-sma"></image>
+      <image src="../../images/color_icon.png" class="opt-icon-sma margin-left-5"></image>
+    </view>
+    <view class="weui-cells__title margin-top-5">{{tip}}</view>
+    <view class="margin-top-25">
+      <button class="weui-btn margin-left-10 margin-right-10" type="primary" bindtap="clickConfirm">{{btn}}</button>
+    </view>
+  </view>
+
+</view>

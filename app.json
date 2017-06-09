@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/tw/tw",
+    "pages/paint/paint",
+    "pages/inputText/inputText",
+    "pages/comment/comment"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "white",
+    "navigationBarTitleText": "知青故事",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": true,
+    "backgroundColor": "#f8f8f8"
+  },
+  "debug": true
+}

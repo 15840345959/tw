@@ -1,0 +1,86 @@
+.page {
+  background-color: #f8f8f8;
+}
+
+.cover_content {
+  background-color: #cdcdcd;
+  height: 120px;
+  position: relative;
+}
+
+.twInfo-img {
+  height: 120px;
+}
+
+.settitle {
+  left: 10px;
+  top: 10px;
+  color: #fff;
+  width: 240px;
+  position: absolute;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.addIntro {
+  float: left;
+  border-radius: 2px;
+  left: 10px;
+  padding: 2.5px 5px;
+  bottom: 5px;
+  background-color: #fff;
+  position: absolute;
+}
+
+.editcover {
+  float: right;
+  border-radius: 2px;
+  right: 10px;
+  padding: 2.5px 5px;
+  bottom: 5px;
+  background-color: #fff;
+  position: absolute;
+}
+
+.tuwen_con {
+  background-color: #f8f8f8;
+}
+
+.addtuwen {
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.jiahao {
+  margin: 0% 45%;
+  background-color: #cdcdcd;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 10px;
+}
+
+.tuwen {
+  margin: 5px 10px;
+  background-color: #fff;
+  border-radius: 2px;
+  height: 100px;
+  position: relative;
+}
+
+.chahao {
+  padding: 0px 10px;
+  height: 20px;
+}
+
+.tuwenson1 {
+  float: left;
+  padding-left: 20px;
+}
+
+.tuwenson2 {
+  float: left;
+  padding-left: 15px;
+  width: 240px;
+  word-wrap: break-word;
+}
