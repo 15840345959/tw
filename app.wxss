@@ -194,6 +194,10 @@ page {
   border-top: 1px solid #d0d0d0;
 }
 
+.border-top-lg {
+  border-top: 1px solid #f0f0f0;
+}
+
 .border-left {
   border-left: 1px solid #d0d0d0;
 }
@@ -245,4 +249,11 @@ page {
 
 .float-right {
   float: right;
+}
+
+.blur {
+  -webkit-filter: blur(20px); /* Chrome, Opera */
+  -moz-filter: blur(20px);
+  -ms-filter: blur(20px);
+  filter: blur(20px);
 }

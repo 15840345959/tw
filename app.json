@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/upage/upage",
     "pages/index/index",
     "pages/tw/tw",
     "pages/paint/paint",

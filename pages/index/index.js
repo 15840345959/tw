@@ -51,7 +51,6 @@ Page({
 
     vm.setData({
       currentNavbar: e.currentTarget.dataset.idx,
-      twInfos: []
     })
     //start变为零
     start = 0;
@@ -110,6 +109,10 @@ Page({
           msgObj[i].twInfo.img = util.qiniuUrlTool(msgObj[i].twInfo.img, "folder_index")
         }
         var twInfosObj = vm.data.twInfos
+        //如果是重新获取数据
+        if (start == 0) {
+          twInfosObj = []
+        }
         for (var i = 0; i < msgObj.length; i++) {
           twInfosObj.push(msgObj[i]);
         }

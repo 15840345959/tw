@@ -1,0 +1,55 @@
+<view class="page">
+  <!--页头-->
+  <view class="page__hd"></view>
+  <!--主体-->
+  <view class="page__bd page__bd_spacing">
+    <!--头部信息-->
+    <view style="position:relative;">
+
+      <image src="{{userInfo.avatar}}" style="width:100%;height:220px;" class="blur"></image>
+      <view style="position: absolute;top:35px;width:100%;" class="text-center">
+        <image src="{{userInfo.avatar}}" class="head-image-lar"></image>
+      </view>
+      <view style="position: absolute;top:100px;width:100%;" class="text-center">
+        <text class="font-size-16 white-font">{{userInfo.nick_name}}</text>
+      </view>
+      <view style="position: absolute;top:125px;width:100%;" class="text-center" data-id="userInfo_my_sign" data-plach="设置签名，让更多的人认识你" data-value="{{userInfo.my_sign}}" bindtap="setInputText">
+        <text wx:if="{{userInfo.my_sign.length > 0 }}" class="font-size-14 white-font">{{userInfo.my_sign}}</text>
+        <text wx:else class="font-size-14 white-font">让世界了解你，from 分投</text>
+      </view>
+      <image src="../../images/left_arrow.png" style="position: absolute;left: 15px;top: 15px;" class="opt-icon-32" bindtap="clickBack"></image>
+      <view style="position: absolute;width:100%;bottom:30px;" class="text-center">
+        <view class="weui-flex margin-top-10" style="width:240px;">
+          <view class="weui-flex__item">
+            <view class="placeholder">
+              <text class="white-font font-size-12">粉丝</text>
+            </view>
+          </view>
+          <view class="weui-flex__item">
+            <view class="placeholder">
+              <text class="white-font font-size-12">粉丝</text>
+            </view>
+          </view>
+          <view class="weui-flex__item">
+            <view class="placeholder">
+              <text class="white-font font-size-12">粉丝</text>
+            </view>
+          </view>
+
+        </view>
+
+
+      </view>
+
+    </view>
+
+    <!--页脚-->
+    <view class="weui-footer weui-footer_fixed-bottom white-bg border-top-lg text-center">
+      <view class="margin-top-10" style="height:40px;">
+        <image src="../../images/addf_n.png" class="opt-icon-20"></image>
+        <text style="line-height:30px;" class="margin-left-10 font-size-16">关注TA</text>
+      </view>
+    </view>
+  </view>
+
+</view>
