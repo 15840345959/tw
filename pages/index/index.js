@@ -18,7 +18,9 @@ Page({
     swipers: [],  //广告图信息
     userInfo: {},
     systemInfo: {},
-    twInfos: []
+    twInfos: [],
+    userPage: {},
+    tab_nav: 0
   },
 
   onLoad: function () {
@@ -31,6 +33,10 @@ Page({
       vm.setData({
         userInfo: res
       })
+      //完成用户信息获取后执行
+      vm.setADSwiper();
+      vm.getTWList();
+      vm.getUserPage();
     })
     //初始化sysInfo
     app.getSystemInfo(function (res) {
@@ -39,8 +45,6 @@ Page({
         systemInfo: res
       })
     })
-    vm.setADSwiper();
-    vm.getTWList();
   },
   //切换 navbar
   swichNav(e) {
@@ -129,23 +133,36 @@ Page({
   //点击照相机，进行拍照
   selectImages: function (e) {
     console.log(JSON.stringify(e))
-    util.showLoading("选择图片");
-    var param = {}
-    util.chooseImage(param, function (res) {
-      if (res.tempFilePaths.length > 0) {
-        var paths = res.tempFilePaths;
-        wx.navigateTo({
-          url: '/pages/paint/paint?paths=' + JSON.stringify(paths),
-        })
-      } else {
+    console.log("userInfo:" + JSON.stringify(vm.data.userInfo))
+
+    app.getUserInfo(function (res) {
+      console.log(JSON.stringify(res))
+      vm.setData({
+        userInfo: res
+      })
+      //判断是否有用户头像和昵称
+      if (util.judgeIsAnyNullStr(vm.data.userInfo.nick_name) || util.judgeIsAnyNullStr(vm.data.userInfo.avatar)) {
+        util.navigateToLogin()
+        return
+      }
+      util.showLoading("选择图片");
+      var param = {}
+      util.chooseImage(param, function (res) {
+        if (res.tempFilePaths.length > 0) {
+          var paths = res.tempFilePaths;
+          wx.navigateTo({
+            url: '/pages/paint/paint?paths=' + JSON.stringify(paths),
+          })
+        } else {
+          util.hideLoading();
+          util.showToast("请选择图片");
+        }
+        util.hideLoading();
+      }, function (res) {
         util.hideLoading();
         util.showToast("请选择图片");
-      }
-      util.hideLoading();
-    }, function (res) {
-      util.hideLoading();
-      util.showToast("请选择图片");
-    }, null);
+      }, null);
+    })
   },
   //上拉加载更多
   pullUpLoadTW: function (e) {
@@ -179,7 +196,7 @@ Page({
     }
   },
   //点击图文
-  onTWClick(e) {
+  onTWClick: function (e) {
     console.log("onFolderClick:" + JSON.stringify(e))
     if (!util.judgeIsAnyNullStr(e.currentTarget.dataset.twId)) {
       var targetUrl = util.TW_PAGE + '?id=' + e.currentTarget.dataset.twId;
@@ -188,5 +205,84 @@ Page({
         url: targetUrl
       })
     }
-  }
+  },
+  onUserClick: function (e) {
+    console.log("onUserClick:" + JSON.stringify(e))
+    if (!util.judgeIsAnyNullStr(e.currentTarget.dataset.userId)) {
+      var targetUrl = util.USER_PAGE + '?user_id=' + e.currentTarget.dataset.userId;
+      console.log("onUserClick targetUrl:" + targetUrl);
+      wx.navigateTo({
+        url: targetUrl
+      })
+    }
+  },
+  //获取用户页面
+  getUserPage: function (e) {
+    console.log("getUserPage e:" + JSON.stringify(e))
+    var param = {
+      user_id: vm.data.userInfo.id,
+      owner_id: vm.data.userInfo.id,
+    }
+    util.getUserPage(param, function (ret) {
+      console.log("getUserPage ret:" + JSON.stringify(ret))
+      if (ret.data.code == "200") {
+        var msgObj = ret.data.obj
+        for (var i = 0; i < msgObj.twDetailInfos.length; i++) {
+          msgObj.twDetailInfos[i].twInfo.img = util.qiniuUrlTool(msgObj.twDetailInfos[i].twInfo.img, "folder_index")
+          msgObj.twDetailInfos[i].twInfo.create_time = util.getDateStr(msgObj.twDetailInfos[i].twInfo.create_time)
+        }
+        vm.setData({
+          userPage: msgObj
+        })
+      }
+    })
+  },
+  //点击下面tab
+  clickTab: function (e) {
+    console.log("clickTab:" + JSON.stringify(e))
+    console.log("e.currentTarget.dataset.tab:" + e.currentTarget.dataset.tab)
+    vm.setData({
+      tab_nav: e.currentTarget.dataset.tab
+    })
+
+    //如果tab_nav是1的话，即为我的页面，需要更新画夹
+    if (vm.data.tab_nav == 1) {
+      vm.getUserPage();
+    }
+  },
+  //删除图文
+  deleteTW: function (e) {
+    console.log(JSON.stringify(e))
+    wx.showModal({
+      content: '是否确定删除作品',
+      showCancel: true,
+      cancelText: "取消",
+      cancelColor: "#000000",
+      confirmText: "确定",
+      confirmColor: "#03a9f4",
+      success: function (res) {
+        if (res.confirm) {
+          var index = e.currentTarget.dataset.index
+          var tw_id = e.currentTarget.dataset.twId
+          var userPageObj = vm.data.userPage
+          console.log("userPageObj:" + JSON.stringify(userPageObj))
+          userPageObj.twDetailInfos.splice(index, 1);
+          console.log("userPageObj:" + JSON.stringify(userPageObj))
+          vm.setData({
+            userPage: userPageObj
+          })
+          util.showToast("删除作品")
+          var param = {
+            user_id: vm.data.userInfo.id,
+            token: vm.data.userInfo.token,
+            tw_id: tw_id
+          }
+          console.log("param:" + JSON.stringify(param))
+          util.deleteTW(param, function (ret) {
+            console.log(ret)
+          })
+        }
+      }
+    });
+  },
 })

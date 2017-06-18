@@ -1,0 +1,26 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__hd">
+  </view>
+  <view class="page__bd">
+
+    <!--logo-->
+    <view style="position: absolute;top:80px;width:100%;" class="text-center">
+      <image src="../../images/logo_c.png" class="head-image-larb"></image>
+    </view>
+    <view style="position: absolute;top:225px;width:100%;" class="text-center">
+      <text class="font-size-18">让世界享受艺术生活</text>
+    </view>
+    <view style="position: absolute;top:255px;width:100%;" class="text-center">
+      <text class="font-size-12 grey-font">潜力榜/画展/推广/交流</text>
+    </view>
+
+    <!--按钮-->
+    <view style="position: absolute;bottom:115px;width:100%;" class="text-center">
+      <text class="font-size-12 grey-font">登录后可使用完整功能</text>
+    </view>
+    <view style="position: absolute;bottom:55px;width:100%;" class="text-center">
+      <button class="weui-btn" style="margin-left:50px;margin-right:50px;" type="primary" bindtap="clickLogin">授权登录</button>
+    </view>
+  </view>
+
+</view>

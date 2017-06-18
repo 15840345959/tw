@@ -4,78 +4,175 @@
   <!--主体-->
   <view class="page__bd page__bd_spacing">
     <!--主页信息-->
-    <!-- 推荐 -->
-    <view class="navbar">
-      <view class="navbar-item" wx:for="{{navbar}}" wx:for-index="idx" data-idx="{{idx}}" bindtap="swichNav">
-        <text class="navbar-text {{currentNavbar==idx ? 'active' : ''}}">{{item}}</text>
-      </view>
-    </view>
-
-    <!--作品部分-->
-    <scroll-view class="hot-item-container" style="height: {{systemInfo.windowHeight}}px;" scroll-y="true" bindscrolltolower="pullUpLoadTW">
-      <view class="{{currentNavbar==0 ? '' : 'hidden'}}">
-        <swiper indicator-dots="true" indicator-color="rgba(255, 255, 255, .3)" indicator-active-color="#FFFFFF" autoplay="true" interval="4000" duration="600" style="height:{{systemInfo.windowWidth/2}}px">
-          <block wx:for="{{swipers}}">
-            <swiper-item>
-              <image src="{{item.pic}}" class="slide-image" width="750" />
-            </swiper-item>
-          </block>
-        </swiper>
-
-        <view class="line-text">
-          精彩故事
+    <view class="{{tab_nav == 0 ? '':'hidden'}}">
+      <!-- 推荐 -->
+      <view class="navbar">
+        <view class="navbar-item" wx:for="{{navbar}}" wx:for-index="idx" data-idx="{{idx}}" bindtap="swichNav">
+          <text class="navbar-text {{currentNavbar==idx ? 'active' : ''}}">{{item}}</text>
         </view>
       </view>
-      <!--图文列表-->
+      <!--作品部分-->
+      <scroll-view class="hot-item-container" style="height: {{systemInfo.windowHeight}}px;" scroll-y="true" bindscrolltolower="pullUpLoadTW">
+        <view class="{{currentNavbar==0 ? '' : 'hidden'}}">
+          <!--轮播广告图-->
+          <swiper indicator-dots="true" indicator-color="rgba(255, 255, 255, .3)" indicator-active-color="#FFFFFF" autoplay="true" interval="4000" duration="600" style="height:{{systemInfo.windowWidth/2}}px">
+            <block wx:for="{{swipers}}">
+              <swiper-item>
+                <image src="{{item.pic}}" class="slide-image" width="750" />
+              </swiper-item>
+            </block>
+          </swiper>
 
-      <block wx:for="{{twInfos}}" wx:key="id" wx:for-index="idx" wx:for-item="step">
-        <view class="margin-top-10">
-          <view style="margin-left:5px;margin-right:5px;border-radius:5px;" class="white-bg">
-            <view style="position:relative;">
-              <image src="{{step.twInfo.img}}" class="tw-img" mode="aspectFill" bindtap="onTWClick" data-tw-id="{{step.twInfo.id}}"></image>
-              <view class="font-size-18 tw-title">
-                {{step.twInfo.title}}
+          <view class="line-text">
+            精彩故事
+          </view>
+        </view>
+        <!--图文列表-->
+
+        <block wx:for="{{twInfos}}" wx:key="id" wx:for-index="idx" wx:for-item="step">
+          <view class="margin-top-10">
+            <view style="margin-left:5px;margin-right:5px;border-radius:5px;" class="white-bg">
+              <view style="position:relative;" bindtap="onTWClick" data-tw-id="{{step.twInfo.id}}">
+                <image src="{{step.twInfo.img}}" class="tw-img" mode="aspectFill"></image>
+                <view class="tw-img mask-div-black"></view>
+                <view class="font-size-18 tw-title">
+                  {{step.twInfo.title}}
+                </view>
               </view>
-            </view>
-            <view>
-              <view class="weui-flex padding-bottom-10">
-                <view class="weui-flex__item">
-                  <view class="placeholder" style="display:flex;align-items:center;">
-                    <image src="{{step.userInfo.avatar}}" class="head-image-sma margin-left-5"></image>
-                    <text class="font-size-16  margin-left-5">{{step.userInfo.nick_name}}</text>
+              <view>
+                <view class="weui-flex padding-bottom-10">
+                  <view class="weui-flex__item" bindtap="onUserClick" data-user-id="{{step.userInfo.id}}">
+                    <view class="placeholder" style="display:flex;align-items:center;">
+                      <image src="{{step.userInfo.avatar}}" class="head-image-sma margin-left-5"></image>
+                      <text class="font-size-16  margin-left-5">{{step.userInfo.nick_name}}</text>
+                    </view>
+                  </view>
+                  <view class="weui-flex__item">
+                    <view class="placeholder  margin-top-5" style="display:flex;align-items:center;float:right;">
+                      <image src="../../images/show_n.png" class="opt-icon-sma margin-right-5"></image>
+                      <text class="font-size-12  margin-right-10 grey-font">{{step.twInfo.show_time}}</text>
+                      <image src="../../images/favor_n.png" class="opt-icon-sma margin-right-5"></image>
+                      <text class="font-size-12  margin-right-10 grey-font">{{step.twInfo.favor_num}}</text>
+                      <image src="../../images/comment_n.png" class="opt-icon-sma margin-right-5"></image>
+                      <text class="font-size-12 margin-right-10 grey-font">{{step.twInfo.comm_num}}</text>
+                    </view>
                   </view>
                 </view>
-                <view class="weui-flex__item">
-                  <view class="placeholder  margin-top-5" style="display:flex;align-items:center;float:right;">
-                    <image src="../../images/show_n.png" class="opt-icon-sma margin-right-5 float-right"></image>
-                    <text class="font-size-12  margin-right-10 grey-font">{{step.twInfo.show_time}}</text>
-                    <image src="../../images/favor_n.png" class="opt-icon-sma margin-right-5 float-right"></image>
-                    <text class="font-size-12  margin-right-10 grey-font">{{step.twInfo.favor_num}}</text>
-                    <image src="../../images/comment_n.png" class="opt-icon-sma margin-right-5"></image>
-                    <text class="font-size-12 margin-right-10 grey-font">{{step.twInfo.comm_num}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+
+      </scroll-view>
+    </view>
+
+    <!--个人主页-->
+    <view class="{{tab_nav == 1 ? '':'hidden'}}" style="background:#f8f8f8;">
+      <!--个人主页-->
+      <view class="{{tab_nav == 1 ? '':'hidden'}}">
+        <!--头部信息-->
+        <view style="position:relative;">
+          <image src="{{userPage.userInfo.avatar}}" class="head-bg blur"></image>
+          <view class="mask-div-black head-bg"></view>
+          <view style="position: absolute;top:35px;width:100%;" class="text-center">
+            <image src="{{userPage.userInfo.avatar}}" class="head-image-lar"></image>
+          </view>
+          <view style="position: absolute;top:110px;width:100%;" class="text-center">
+            <text class="font-size-16 white-font">{{userPage.userInfo.nick_name}}</text>
+          </view>
+          <view style="position: absolute;top:135px;width:100%;" class="text-center" data-id="userInfo_my_sign" data-plach="设置签名，让更多的人认识你" data-value="{{userPage.userInfo.my_sign}}" bindtap="setInputText">
+            <text wx:if="{{userPage.userInfo.my_sign.length > 0 }}" class="font-size-14 white-font">{{userPage.userInfo.my_sign}}</text>
+            <text wx:else class="font-size-14 white-font">设置签名，让更多的人认识你</text>
+          </view>
+          <view style="position: absolute;width:100%;bottom:20px;">
+            <view class="weui-flex white-font" style="margin-left:30px;margin-right:30px;">
+              <view class="weui-flex__item">
+                <view class="placeholder">
+                  <view class="text-center font-size-14">
+                    {{userPage.TW_num}}
+                  </view>
+                  <view class="text-center font-size-12">
+                    作品
+                  </view>
+                </view>
+              </view>
+              <view class="weui-flex__item">
+                <view class="placeholder">
+                  <view class="text-center font-size-14">
+                    {{userPage.guanzhu_num}}
+                  </view>
+                  <view class="text-center font-size-12">
+                    关注
+                  </view>
+                </view>
+              </view>
+              <view class="weui-flex__item">
+                <view class="placeholder">
+                  <view class="text-center font-size-14">
+                    {{userPage.fans_num}}
+                  </view>
+                  <view class="text-center font-size-12">
+                    粉丝
                   </view>
                 </view>
               </view>
             </view>
           </view>
         </view>
-      </block>
+        <block wx:for="{{userPage.twDetailInfos}}" wx:key="id" wx:for-index="idx" wx:for-item="step">
+          <view class="margin-top-10">
+            <view style="margin-left:5px;margin-right:5px;border-radius:5px;" class="white-bg">
+              <view style="position:relative;" bindtap="onTWClick" data-tw-id="{{step.twInfo.id}}">
+                <image src="{{step.twInfo.img}}" class="tw-img" mode="aspectFill"></image>
+                <view class="tw-img mask-div-black"></view>
+                <view class="font-size-18 tw-title">
+                  {{step.twInfo.title}}
+                </view>
+              </view>
+              <view>
+                <view class="weui-flex padding-bottom-10">
+                  <view class="weui-flex__item">
+                    <view class="placeholder" style="display:flex;align-items:center;">
+                      <image src="../../images/delete_icon.png" class="head-image-sma margin-left-5" data-tw-id="{{step.twInfo.id}}" bindtap="deleteTW" data-index="{{idx}}"></image>
+                    </view>
+                  </view>
+                  <view class="weui-flex__item">
+                    <view class="placeholder  margin-top-5" style="display:flex;align-items:center;float:right;">
+                      <image src="../../images/show_n.png" class="opt-icon-sma margin-right-5"></image>
+                      <text class="font-size-12  margin-right-10 grey-font">{{step.twInfo.show_time}}</text>
+                      <image src="../../images/favor_n.png" class="opt-icon-sma margin-right-5"></image>
+                      <text class="font-size-12  margin-right-10 grey-font">{{step.twInfo.favor_num}}</text>
+                      <image src="../../images/comment_n.png" class="opt-icon-sma margin-right-5"></image>
+                      <text class="font-size-12 margin-right-10 grey-font">{{step.twInfo.comm_num}}</text>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
+        <view style="height:80px;"></view>
+      </view>
 
-    </scroll-view>
+    </view>
+
     <!--页脚-->
     <view class="weui-footer weui-footer_fixed-bottom white-bg" style="z-index:100;">
       <view class="weui-flex" style="width:100%; padding-top:5px;">
-        <view class="weui-flex__item">
-          <image src="../../images/home_r.png" class="opt-icon-nor-t"></image>
+        <view class="weui-flex__item" bindtap="clickTab" data-tab="0">
+
+          <image wx:if="{{tab_nav == 0}}" src="../../images/home_r.png" class="opt-icon-nor-t"></image>
+          <image wx:else src="../../images/home_n.png" class="opt-icon-nor-t"></image>
         </view>
         <view class="weui-flex__item" style="position:relative;">
           <image src="../../images/camera_icon.png" class="opt-icon-nor-tb" style="margin-top:-22px;position:relative;" bindtap="selectImages"></image>
         </view>
-        <view class="weui-flex__item">
-          <image src="../../images/user_n.png" class="opt-icon-nor-t"></image>
+        <view class="weui-flex__item" bindtap="clickTab" data-tab="1">
+          <image wx:if="{{tab_nav == 1}}" src="../../images/user_r.png" class="opt-icon-nor-t"></image>
+          <image wx:else src="../../images/user_n.png " class="opt-icon-nor-t "></image>
         </view>
       </view>
     </view>
-  </view>
 
+  </view>
 </view>

@@ -1,8 +1,9 @@
 {
   "pages": [
-    "pages/upage/upage",
     "pages/index/index",
+    "pages/upage/upage",
     "pages/tw/tw",
+    "pages/login/login",
     "pages/paint/paint",
     "pages/inputText/inputText",
     "pages/comment/comment"

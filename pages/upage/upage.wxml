@@ -6,48 +6,98 @@
     <!--头部信息-->
     <view style="position:relative;">
 
-      <image src="{{userInfo.avatar}}" style="width:100%;height:220px;" class="blur"></image>
+      <image src="{{userPage.userInfo.avatar}}" class="blur head-bg"></image>
+      <view class="mask-div-black head-bg"></view>
       <view style="position: absolute;top:35px;width:100%;" class="text-center">
-        <image src="{{userInfo.avatar}}" class="head-image-lar"></image>
+        <image src="{{userPage.userInfo.avatar}}" class="head-image-lar"></image>
       </view>
       <view style="position: absolute;top:100px;width:100%;" class="text-center">
-        <text class="font-size-16 white-font">{{userInfo.nick_name}}</text>
+        <text class="font-size-16 white-font">{{userPage.userInfo.nick_name}}</text>
       </view>
-      <view style="position: absolute;top:125px;width:100%;" class="text-center" data-id="userInfo_my_sign" data-plach="设置签名，让更多的人认识你" data-value="{{userInfo.my_sign}}" bindtap="setInputText">
-        <text wx:if="{{userInfo.my_sign.length > 0 }}" class="font-size-14 white-font">{{userInfo.my_sign}}</text>
-        <text wx:else class="font-size-14 white-font">让世界了解你，from 分投</text>
+      <view style="position: absolute;top:125px;width:100%;" class="text-center">
+        <text wx:if="{{userInfo.my_sign.length > 0 }}" class="font-size-14 white-font">{{userPage.userInfo.my_sign}}</text>
+        <text wx:else class="font-size-12 white-font">精彩一瞬，尽在分投</text>
       </view>
       <image src="../../images/left_arrow.png" style="position: absolute;left: 15px;top: 15px;" class="opt-icon-32" bindtap="clickBack"></image>
-      <view style="position: absolute;width:100%;bottom:30px;" class="text-center">
-        <view class="weui-flex margin-top-10" style="width:240px;">
+      <view style="position: absolute;width:100%;bottom:20px;">
+        <view class="weui-flex white-font" style="margin-left:30px;margin-right:30px;">
           <view class="weui-flex__item">
             <view class="placeholder">
-              <text class="white-font font-size-12">粉丝</text>
+              <view class="text-center font-size-14">
+                {{userPage.TW_num}}
+              </view>
+              <view class="text-center font-size-12">
+                作品
+              </view>
             </view>
           </view>
           <view class="weui-flex__item">
             <view class="placeholder">
-              <text class="white-font font-size-12">粉丝</text>
+              <view class="text-center font-size-14">
+                {{userPage.guanzhu_num}}
+              </view>
+              <view class="text-center font-size-12">
+                关注
+              </view>
             </view>
           </view>
           <view class="weui-flex__item">
             <view class="placeholder">
-              <text class="white-font font-size-12">粉丝</text>
+              <view class="text-center font-size-14">
+                {{userPage.fans_num}}
+              </view>
+              <view class="text-center font-size-12">
+                粉丝
+              </view>
             </view>
           </view>
-
         </view>
-
-
       </view>
-
     </view>
 
+    <!--作品列表-->
+    <block wx:for="{{userPage.twDetailInfos}}" wx:key="id" wx:for-index="idx" wx:for-item="step">
+      <view class="margin-top-10">
+        <view style="margin-left:5px;margin-right:5px;">
+          <view style="position:relative;" bindtap="onTWClick" data-tw-id="{{step.twInfo.id}}">
+            <!--图片-->
+            <image src="{{step.twInfo.img}}" class="tw-img-u" mode="aspectFill"></image>
+
+            <view class="tw-img-u mask-div-black"></view>
+            <view class="font-size-18 tw-title-oneline">
+              {{step.twInfo.title}}
+            </view>
+            <view class="font-size-14 tw-date">
+              {{step.twInfo.create_time}}
+            </view>
+
+            <!--下方展示、点赞等-->
+            <view style="display:flex;align-items:center;float:left;" class="tw-bottom-left">
+              <image src="../../images/show_w.png" class="opt-icon-sma margin-right-5"></image>
+              <text class="font-size-12  margin-right-10 white-font">{{step.twInfo.show_time}}</text>
+              <image src="../../images/favor_w.png" class="opt-icon-sma margin-right-5"></image>
+              <text class="font-size-12  margin-right-10 white-font">{{step.twInfo.favor_num}}</text>
+              <image src="../../images/comment_w.png" class="opt-icon-sma margin-right-5"></image>
+              <text class="font-size-12 margin-right-10 white-font">{{step.twInfo.comm_num}}</text>
+            </view>
+            <view class="font-size-16 white-font tw-bottom-right">
+              其他
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
     <!--页脚-->
     <view class="weui-footer weui-footer_fixed-bottom white-bg border-top-lg text-center">
-      <view class="margin-top-10" style="height:40px;">
-        <image src="../../images/addf_n.png" class="opt-icon-20"></image>
-        <text style="line-height:30px;" class="margin-left-10 font-size-16">关注TA</text>
+      <view class="margin-top-10" style="height:40px;" bindtap="clickGuanZhu" data-guanzhu-flag="{{userPage.guanzhu_flag}}">
+        <view wx:if="{{userPage.guanzhu_flag}}">
+          <image src="../../images/addf_r.png" class="opt-icon-20"></image>
+          <text style="line-height:30px;color:#D81E06;" class="margin-left-10 font-size-16"></text>
+        </view>
+        <view wx:else>
+          <image src="../../images/addf_n.png" class="opt-icon-20"></image>
+          <text style="line-height:30px;" class="margin-left-10 font-size-16"></text>
+        </view>
       </view>
     </view>
   </view>
