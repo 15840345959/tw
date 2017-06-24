@@ -13,31 +13,17 @@ var loadding_flag = false;
 var app = getApp()
 Page({
   data: {
-    navbar: ['推荐', '全部', '最新', '最热', '赞榜'],
-    currentNavbar: '0',
     swipers: [],  //广告图信息
-    userInfo: {},
-    systemInfo: {},
     twInfos: [],
-    userPage: {},
-    tab_nav: 0
+    inputShowed: false,
+    inputVal: "",
+    systemInfo: {},  //系统消息
+    twInfos: [],
   },
-
+  //页面加载
   onLoad: function () {
     console.log('onLoad')
     vm = this
-    //调用应用实例的方法获取全局数据
-    //封装userInfo
-    app.getUserInfo(function (res) {
-      console.log("getUserInfo:" + JSON.stringify(res))
-      vm.setData({
-        userInfo: res
-      })
-      //完成用户信息获取后执行
-      vm.setADSwiper();
-      vm.getTWList();
-      vm.getUserPage();
-    })
     //初始化sysInfo
     app.getSystemInfo(function (res) {
       console.log("getSystemInfo:" + JSON.stringify(res));
@@ -45,20 +31,31 @@ Page({
         systemInfo: res
       })
     })
+    //获取广告图片
+    vm.setADSwiper()
+    //获取图文信息
+    vm.getTWList()
   },
-  //切换 navbar
-  swichNav(e) {
-    //判断是否点击了当前的nav
-    if (vm.data.currentNavbar == e.currentTarget.dataset.idx) {
-      return;
-    }
-
-    vm.setData({
-      currentNavbar: e.currentTarget.dataset.idx,
-    })
-    //start变为零
-    start = 0;
-    vm.getTWList();
+  showInput: function () {
+    this.setData({
+      inputShowed: true
+    });
+  },
+  hideInput: function () {
+    this.setData({
+      inputVal: "",
+      inputShowed: false
+    });
+  },
+  clearInput: function () {
+    this.setData({
+      inputVal: ""
+    });
+  },
+  inputTyping: function (e) {
+    this.setData({
+      inputVal: e.detail.value
+    });
   },
   //获取广告图片
   setADSwiper: function () {
@@ -82,27 +79,12 @@ Page({
   //获取作品信息
   getTWList: function (e) {
     var param = {
-      user_id: vm.data.userInfo.id,
+      user_id: app.globalData.userInfo.id,
       start: start,
-      num: num
+      num: num,
+      con: "recomm"
     }
-    var curr_nav = vm.data.currentNavbar
-    console.log("curr_nav:" + curr_nav)
-    if (curr_nav == 0) {
-      param.con = "recomm"
-    }
-    if (curr_nav == 1) {
-      param.con = "all"
-    }
-    if (curr_nav == 2) {
-      param.con = "new"
-    }
-    if (curr_nav == 3) {
-      param.con = "favor"
-    }
-    if (curr_nav == 4) {
-      param.con = "show"
-    }
+    util.showLoading("加载数据")
     console.log("param:" + JSON.stringify(param))
     util.getTWInfoByCon(param, function (ret) {
       console.log(JSON.stringify(ret))
@@ -171,7 +153,7 @@ Page({
       return;
     }
     loadding_flag = true;
-    vm.getTWList();
+    vm.getTWList()
   },
   //下拉刷新
   onPullDownRefresh() {
@@ -181,9 +163,6 @@ Page({
     }
     loadding_flag = true;
     start = 0
-    vm.setData({
-      twInfos: []
-    })
     vm.getTWList()
     wx.stopPullDownRefresh()
   },

@@ -11,10 +11,36 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "white",
-    "navigationBarTitleText": "知青故事",
+    "navigationBarTitleText": "分投",
     "navigationBarTextStyle": "black",
     "enablePullDownRefresh": true,
     "backgroundColor": "#f8f8f8"
+  },
+  "tabBar": {
+    "color": "#8A8A8A",
+    "borderStyle": "white",
+    "selectedColor": "#1296DB",
+    "backgroundColor": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "发现",
+        "iconPath": "images/home_n.png",
+        "selectedIconPath": "images/home_r.png"
+      },
+      {
+        "pagePath": "pages/read/read",
+        "text": "拍照",
+        "iconPath": "images/camera_n.png",
+        "selectedIconPath": "images/camner_r.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "images/user_n.png",
+        "selectedIconPath": "images/user_r.png"
+      }
+    ]
   },
   "debug": true
 }

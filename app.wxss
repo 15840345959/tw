@@ -344,3 +344,18 @@ page {
 .gray-filter {
   filter: gray; /* 黑白图片 */
 }
+
+.top-search-bar {
+  position: fixed;
+  top: 0px;
+  z-index: 999;
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.text-shadow-grey {
+  text-shadow: 3px 2px 2px #666;
+}

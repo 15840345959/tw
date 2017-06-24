@@ -1,6 +1,6 @@
 import Promise from './es6-promise.min'
 
-var TESTMODE = false;
+var TESTMODE = true;
 
 //服务器地址
 var SERVER_URL = "https://isart.me";
@@ -86,9 +86,11 @@ function wxRequest(url, param, method, successCallback, errorCallback) {
     method: method,
     success: function (res) {
       successCallback(res)
+      hideLoading()
     },
     fail: function (err) {
       console.log("wxRequest fail:" + JSON.stringify(err));
+      hideLoading()
     }
   });
 }

@@ -1,0 +1,34 @@
+<!--该模板用于首页展示-->
+<template name="twListIndex">
+  <view class="margin-top-10">
+    <view style="margin-left:5px;margin-right:5px;border-radius:5px;" class="white-bg">
+      <view style="position:relative;" bindtap="onTWClick" data-tw-id="{{twInfo.id}}">
+        <image src="{{twInfo.img}}" class="tw-img" mode="aspectFill"></image>
+        <view class="tw-img mask-div-black"></view>
+        <view class="font-size-18 tw-title text-shadow-grey">
+          {{twInfo.title}}
+        </view>
+      </view>
+      <view>
+        <view class="weui-flex padding-bottom-10">
+          <view class="weui-flex__item" bindtap="onUserClick" data-user-id="{{userInfo.id}}">
+            <view class="placeholder" style="display:flex;align-items:center;">
+              <image src="{{userInfo.avatar}}" class="head-image-sma margin-left-5"></image>
+              <text class="font-size-16  margin-left-5">{{userInfo.nick_name}}</text>
+            </view>
+          </view>
+          <view class="weui-flex__item">
+            <view class="placeholder  margin-top-5" style="display:flex;align-items:center;float:right;">
+              <image src="../../images/show_n.png" class="opt-icon-sma margin-right-5"></image>
+              <text class="font-size-12  margin-right-10 grey-font">{{twInfo.show_time}}</text>
+              <image src="../../images/favor_n.png" class="opt-icon-sma margin-right-5"></image>
+              <text class="font-size-12  margin-right-10 grey-font">{{twInfo.favor_num}}</text>
+              <image src="../../images/comment_n.png" class="opt-icon-sma margin-right-5"></image>
+              <text class="font-size-12 margin-right-10 grey-font">{{twInfo.comm_num}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
