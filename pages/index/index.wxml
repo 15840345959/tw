@@ -3,79 +3,50 @@
   <view class="page__hd"></view>
   <!--主体-->
   <view class="page__bd page__bd_spacing">
-    <!--主页信息-->
-    <!-- 推荐 -->
-    <view class="navbar">
-      <view class="navbar-item" wx:for="{{navbar}}" wx:for-index="idx" data-idx="{{idx}}" bindtap="swichNav">
-        <text class="navbar-text {{currentNavbar==idx ? 'active' : ''}}">{{item}}</text>
-      </view>
-    </view>
-
-    <!--作品部分-->
-    <scroll-view class="hot-item-container" style="height: {{systemInfo.windowHeight}}px;" scroll-y="true" bindscrolltolower="pullUpLoadTW">
-      <view class="{{currentNavbar==0 ? '' : 'hidden'}}">
-        <swiper indicator-dots="true" indicator-color="rgba(255, 255, 255, .3)" indicator-active-color="#FFFFFF" autoplay="true" interval="4000" duration="600" style="height:{{systemInfo.windowWidth/2}}px">
-          <block wx:for="{{swipers}}">
-            <swiper-item>
-              <image src="{{item.pic}}" class="slide-image" width="750" />
-            </swiper-item>
-          </block>
-        </swiper>
-
-        <view class="line-text">
-          精彩故事
-        </view>
-      </view>
-      <!--图文列表-->
-
-      <block wx:for="{{twInfos}}" wx:key="id" wx:for-index="idx" wx:for-item="step">
-        <view class="margin-top-10">
-          <view style="margin-left:5px;margin-right:5px;border-radius:5px;" class="white-bg">
-            <view style="position:relative;">
-              <image src="{{step.twInfo.img}}" class="tw-img" mode="aspectFill" bindtap="onTWClick" data-tw-id="{{step.twInfo.id}}"></image>
-              <view class="font-size-18 tw-title">
-                {{step.twInfo.title}}
-              </view>
-            </view>
-            <view>
-              <view class="weui-flex padding-bottom-10">
-                <view class="weui-flex__item">
-                  <view class="placeholder" style="display:flex;align-items:center;">
-                    <image src="{{step.userInfo.avatar}}" class="head-image-sma margin-left-5"></image>
-                    <text class="font-size-16  margin-left-5">{{step.userInfo.nick_name}}</text>
-                  </view>
-                </view>
-                <view class="weui-flex__item">
-                  <view class="placeholder  margin-top-5" style="display:flex;align-items:center;float:right;">
-                    <image src="../../images/show_n.png" class="opt-icon-sma margin-right-5 float-right"></image>
-                    <text class="font-size-12  margin-right-10 grey-font">{{step.twInfo.show_time}}</text>
-                    <image src="../../images/favor_n.png" class="opt-icon-sma margin-right-5 float-right"></image>
-                    <text class="font-size-12  margin-right-10 grey-font">{{step.twInfo.favor_num}}</text>
-                    <image src="../../images/comment_n.png" class="opt-icon-sma margin-right-5"></image>
-                    <text class="font-size-12 margin-right-10 grey-font">{{step.twInfo.comm_num}}</text>
-                  </view>
-                </view>
-              </view>
-            </view>
+    <!--搜索图标-->
+    <view class="weui-search-bar top-search-bar">
+      <view class="weui-search-bar__form">
+        <view class="weui-search-bar__box">
+          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+          <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+          <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+            <icon type="clear" size="14"></icon>
           </view>
         </view>
-      </block>
+        <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+          <icon class="weui-icon-search" type="search" size="14"></icon>
+          <view class="weui-search-bar__text">搜索</view>
+        </label>
+      </view>
+      <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+    </view>
+    <!--滚动控件-->
+    <scroll-view class="hot-item-container" style="height: {{systemInfo.windowHeight}}px;" scroll-y="true" bindscrolltolower="pullUpLoadTW">
+      <!--占位符-->
+      <view style="height:40px;"></view>
+      <!--广告轮播图-->
+      <swiper indicator-dots="true" indicator-color="rgba(255, 255, 255, .3)" indicator-active-color="#FFFFFF" autoplay="true" interval="4000" duration="600" style="height:{{systemInfo.windowWidth/2}}px">
+        <block wx:for="{{swipers}}">
+          <swiper-item>
+            <image src="{{item.pic}}" class="slide-image" width="750" />
+          </swiper-item>
+        </block>
+      </swiper>
+      <!--图文列表-->
+      <view wx:if="{{twInfos.length>0}}">
+        <view class="line-text">
+          分投推荐
+        </view>
+        <!--图文模板-->
+        <import src="/pages/templates/twTpl/twTpl.wxml" />
+        <block wx:for="{{twInfos}}">
+          <template is="twListIndex" data="{{...item}}" />
+        </block>
+
+      </view>
+
 
     </scroll-view>
-    <!--页脚-->
-    <view class="weui-footer weui-footer_fixed-bottom white-bg" style="z-index:100;">
-      <view class="weui-flex" style="width:100%; padding-top:5px;">
-        <view class="weui-flex__item">
-          <image src="../../images/home_r.png" class="opt-icon-nor-t"></image>
-        </view>
-        <view class="weui-flex__item" style="position:relative;">
-          <image src="../../images/camera_icon.png" class="opt-icon-nor-tb" style="margin-top:-22px;position:relative;" bindtap="selectImages"></image>
-        </view>
-        <view class="weui-flex__item">
-          <image src="../../images/user_n.png" class="opt-icon-nor-t"></image>
-        </view>
-      </view>
-    </view>
-  </view>
 
+  </view>
 </view>

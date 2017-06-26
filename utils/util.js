@@ -1,6 +1,6 @@
 import Promise from './es6-promise.min'
 
-var TESTMODE = false;
+var TESTMODE = true;
 
 //服务器地址
 var SERVER_URL = "https://isart.me";
@@ -47,6 +47,15 @@ function qiniuUrlTool(img_url, type) {
   return qn_img_url;
 }
 
+//跳转到登录页面
+function navigateToLogin(param) {
+
+  console.log("navigateToLogin" + JSON.stringify(param));
+  wx.navigateTo({
+    url: '/pages/login/login?jsonStr=' + JSON.stringify(param),
+  })
+}
+
 // 获取头像
 function getHeadIconA(dir, hi) {
   // console.log(hi);
@@ -77,9 +86,11 @@ function wxRequest(url, param, method, successCallback, errorCallback) {
     method: method,
     success: function (res) {
       successCallback(res)
+      hideLoading()
     },
     fail: function (err) {
       console.log("wxRequest fail:" + JSON.stringify(err));
+      hideLoading()
     }
   });
 }
@@ -137,6 +148,28 @@ function getTWInfoByCon(param, successCallback, errorCallback) {
   wxRequest(SERVER_URL + '/TWServer/APP/getTWDetailInfoByCon.do', param, "GET", successCallback, errorCallback);
 }
 
+//获取用户首页信息
+function getUserPage(param, successCallback, errorCallback) {
+  wxRequest(SERVER_URL + '/TWServer/APP/getUserPage.do', param, "GET", successCallback, errorCallback);
+}
+
+
+//关注用户
+function fansUser(param, successCallback, errorCallback) {
+  wxRequest(SERVER_URL + '/TWServer/APP/fansUser.do', param, "GET", successCallback, errorCallback);
+}
+
+//取消关注用户
+function cannelFansUser(param, successCallback, errorCallback) {
+  wxRequest(SERVER_URL + '/TWServer/APP/cannelFansUser.do', param, "GET", successCallback, errorCallback);
+}
+
+
+//删除图文
+function deleteTW(param, successCallback, errorCallback) {
+  wxRequest(SERVER_URL + '/TWServer/APP/deleteTWById.do', param, "GET", successCallback, errorCallback);
+}
+
 
 /////////基本方法///////////////////////////////////////////
 //跳转到inputText页面
@@ -180,6 +213,18 @@ function judgeIsAnyNullStr() {
     }
   }
   return false;
+}
+
+//获取日期 2017-06-13
+function getDateStr(str) {
+  if (judgeIsAnyNullStr(str)) {
+    return str
+  }
+  var pos = str.indexOf(' ');
+  if (pos < 0) {
+    return str
+  }
+  return str.substr(0, pos)
 }
 
 //格式化日期时间
@@ -351,15 +396,18 @@ function getErrorMsg(error_code) {
 
 module.exports = {
   TW_PAGE: "/pages/tw/tw",
+  USER_PAGE: "/pages/upage/upage",
   COMMENT_PAGE: "/pages/comment/comment",
   INDEX_PAGE: "/pages/index/index",
   navigateToInput: navigateToInput,
+  navigateToLogin: navigateToLogin,
   showLoading: showLoading,
   hideLoading: hideLoading,
   showToast: showToast,
   navigateBack: navigateBack,
   conStr: conStr,
   clone: clone,
+  getDateStr: getDateStr,
   judgeIsAnyNullStr: judgeIsAnyNullStr,
   judgeIsAnyNullStrImp: judgeIsAnyNullStrImp,
   isLocalImg: isLocalImg,
@@ -370,6 +418,7 @@ module.exports = {
   getErrorMsg: getErrorMsg,
   getOpenId: getOpenId,
   getQnToken: getQnToken,
+  getUserPage: getUserPage,
   login: login,
   getTWInfoListByOwnerId: getTWInfoListByOwnerId,
   publishTW: publishTW,
@@ -377,5 +426,8 @@ module.exports = {
   getTWInfoById: getTWInfoById,
   getTWInfoByCon: getTWInfoByCon,
   praiseTW: praiseTW,
-  getADs: getADs
+  getADs: getADs,
+  fansUser: fansUser,
+  cannelFansUser: cannelFansUser,
+  deleteTW: deleteTW
 }
