@@ -1,6 +1,6 @@
 import Promise from './es6-promise.min'
 
-var TESTMODE = true;
+var TESTMODE = false;
 
 //服务器地址
 var SERVER_URL = "https://isart.me";
@@ -194,6 +194,11 @@ function deleteTW(param, successCallback, errorCallback) {
   wxRequest(SERVER_URL + '/TWServer/APP/deleteTWById.do', param, "GET", successCallback, errorCallback);
 }
 
+
+//搜索图文By关键字
+function getTWDetailInfoBySearchWord(param, successCallback, errorCallback) {
+  wxRequest(SERVER_URL + '/TWServer/APP/getTWDetailInfoBySearchWord.do', param, "GET", successCallback, errorCallback);
+}
 
 /////////基本方法///////////////////////////////////////////
 //跳转到inputText页面
@@ -468,6 +473,7 @@ module.exports = {
   COMMENT_PAGE: "/pages/comment/comment",
   INDEX_PAGE: "/pages/index/index",
   MUSIC_PAGE: "/pages/sMusic/sMusic",
+  SEARCH_PAGE: "/pages/search/search",
   TWSeting_PAGE: "/pages/sSetting/sSetting",
   navigateToInput: navigateToInput,
   navigateToLogin: navigateToLogin,
@@ -503,5 +509,6 @@ module.exports = {
   fansUser: fansUser,
   cannelFansUser: cannelFansUser,
   deleteTW: deleteTW,
-  getMusicInfos: getMusicInfos
+  getMusicInfos: getMusicInfos,
+  getTWDetailInfoBySearchWord: getTWDetailInfoBySearchWord
 }

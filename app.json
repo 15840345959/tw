@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/search/search",
     "pages/upage/upage",
     "pages/paint/paint",
     "pages/sSetting/sSetting",

@@ -23,10 +23,11 @@
             <view class="weui-search-bar__form">
               <view class="weui-search-bar__box">
                 <!--搜索图标等-->
-                <view class="weui-flex">
+                <view class="weui-flex" catchtap="clickSearch">
                   <view class="weui-flex__item">
                     <view class="placeholder">
-                      <input type="text" class="weui-search-bar__input" placeholder="大家都在搜分投" value="{{searchWord}}" bindinput="inputTyping" />
+                      <text class="font-size-14 grey-font">大家都在搜分投</text>
+
                     </view>
                   </view>
                   <view class="placeholder border-left">

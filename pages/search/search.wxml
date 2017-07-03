@@ -1,0 +1,38 @@
+<import src="/pages/templates/twTpl/twTpl.wxml" />
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__hd">
+  </view>
+  <view class="page__bd">
+    <!--搜索图标-->
+    <view style="position:fixed;width:100%;z-index:999;">
+      <view class="weui-search-bar white-bg">
+        <view class="weui-search-bar__form">
+          <view class="weui-search-bar__box">
+            <!--搜索图标等-->
+            <view class="weui-flex">
+              <view class="weui-flex__item">
+                <view class="placeholder">
+                  <input type="text" class="weui-search-bar__input" placeholder="大家都在搜分投" value="{{inputVal}}" bindinput="inputTyping" focus="true" />
+                </view>
+              </view>
+              <view class="placeholder border-left" catchtap="clickSearch">
+                <icon class="weui-icon-search margin-left-15" type="search" size="14"></icon>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!--占位符-->
+    <view style="height:60px;"></view>
+    <view class="font-size-14 grey-font">
+      <block wx:for="{{preKeyword}}">
+        <text class="margin-left-15" data-word="{{item}}" catchtap="clickKeyword">{{item}}</text>
+      </block>
+    </view>
+    <!--图文模板-->
+    <block wx:for="{{twInfos}}">
+      <template is="twListIndex" data="{{...item}}" />
+    </block>
+  </view>
+</view>

@@ -54,6 +54,10 @@
         <view wx:else class="tw-pri-div white-font text-center font-size-12 pri-style grey-shadow opacity-8">
           公开
         </view>
+        <!--删除图标-->
+        <view class="tw-del-div opacity-8">
+          <image src="../../images/delete_c_icon.png" class="opt-icon-28" catchtap="deleteTW" data-tw-id="{{twInfo.id}}" data-index="{{index}}"></image>
+        </view>
       </view>
     </view>
   </view>

@@ -34,11 +34,14 @@ Page({
     //获取图文信息
     vm.getIndexPage()
   },
-  //输入文字
-  inputTyping: function (e) {
-    this.setData({
-      searchWord: e.detail.value
-    });
+  //点击搜索
+  clickSearch: function (e) {
+    console.log(JSON.stringify(e))
+    var targetUrl = util.SEARCH_PAGE;
+    console.log("clickSearch targetUrl:" + targetUrl);
+    wx.navigateTo({
+      url: targetUrl
+    })
   },
   //获取首页图文
   getIndexPage: function (e) {
@@ -72,6 +75,39 @@ Page({
         start = start + num
       }
     })
+  },
+  //删除图文
+  deleteTW: function (e) {
+    console.log(JSON.stringify(e))
+    wx.showModal({
+      content: '是否确定删除作品',
+      showCancel: true,
+      cancelText: "取消",
+      cancelColor: "#000000",
+      confirmText: "确定",
+      confirmColor: "#03a9f4",
+      success: function (res) {
+        if (res.confirm) {
+          var index = e.currentTarget.dataset.index
+          var tw_id = e.currentTarget.dataset.twId
+          var userPageObj = vm.data.userPage
+          console.log("userPageObj:" + JSON.stringify(userPageObj))
+          userPageObj.twDetailInfos.splice(index, 1);
+          console.log("userPageObj:" + JSON.stringify(userPageObj))
+          vm.setData({
+            userPage: userPageObj
+          })
+          util.showToast("删除作品")
+          var param = {
+            tw_id: tw_id
+          }
+          console.log("param:" + JSON.stringify(param))
+          util.deleteTW(param, function (ret) {
+            console.log(ret)
+          })
+        }
+      }
+    });
   },
   //获取图文列表
   getTWList: function (e) {
