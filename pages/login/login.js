@@ -19,7 +19,7 @@ Page({
     console.log(JSON.stringify(e))
     wx.openSetting({
       success: (res) => {
-        app.login(function () {
+        app.updateUserInfo(function () {
           util.navigateBack(1)
         })
       }

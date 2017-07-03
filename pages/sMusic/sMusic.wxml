@@ -1,0 +1,20 @@
+<view class="page">
+  <!--页头-->
+  <view class="page__hd"></view>
+  <!--主体-->
+  <view class="page__bd page__bd_spacing">
+    <view class="weui-cells weui-cells_after-title">
+      <block wx:for="{{musicInfos}}">
+        <view class="weui-cell weui-cell_access">
+          <view class="weui-cell__bd" bindtap="selectMusic" data-id="{{item.id}}" data-cover="{{item.coverImgUrl}}">
+            <view style="display: inline-block; vertical-align: middle font-size-14">{{item.title}}
+              <text wx:if="{{item.author}}" class="margin-left-5 grey-font">{{item.author}}</text>
+            </view>
+            <view wx:if="{{item.recomm == 1}}" class="weui-badge" style="margin-left: 5px;">hot</view>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

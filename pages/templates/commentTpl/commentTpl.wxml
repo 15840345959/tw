@@ -1,0 +1,16 @@
+<!--该模板用于评论列表展示-->
+<template name="commentList">
+  <view class="weui-panel__bd">
+    <navigator url="" class="weui-media-box weui-media-box_appmsg">
+      <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+        <image class="weui-media-box__thumb head-image-sma" src="{{userInfo.avatar}}" catchtap="onUserClick" data-user-id="{{userInfo.id}}" />
+      </view>
+      <view class="weui-media-box__bd weui-media-box__bd_in-appmsg border-bottom-lg">
+        <view class="weui-media-box__title font-size-14 grey-font">{{userInfo.nick_name}}</view>
+        <view class="weui-media-box__desc  font-size-14 margin-top-10">{{commentInfo.text}}
+        </view>
+        <view class="weui-media-box__desc margin-bottom-15 grey-font font-size-12 margin-top-15">{{commentInfo.t_date}}</view>
+      </view>
+    </navigator>
+  </view>
+</template>

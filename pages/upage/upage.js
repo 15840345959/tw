@@ -15,25 +15,10 @@ Page({
 
   onLoad: function (options) {
     console.log("onLoad options:" + JSON.stringify(options));
-    owner_id = options.user_id
+    owner_id = options.id
     // owner_id = 15 //测试用
     vm = this
     //调用应用实例的方法获取全局数据
-    //封装userInfo
-    app.getUserInfo(function (res) {
-      console.log("getUserInfo:" + JSON.stringify(res))
-      vm.setData({
-        userInfo: res
-      })
-
-    })
-    //初始化sysInfo
-    app.getSystemInfo(function (res) {
-      console.log("getSystemInfo:" + JSON.stringify(res));
-      vm.setData({
-        systemInfo: res
-      })
-    })
     //获取用户主页
     vm.getUserPage()
   },
@@ -46,7 +31,6 @@ Page({
   getUserPage: function (e) {
     console.log("getUserPage e:" + JSON.stringify(e))
     var param = {
-      user_id: vm.data.userInfo.id,
       owner_id: owner_id
     }
     util.getUserPage(param, function (ret) {
@@ -80,8 +64,7 @@ Page({
     var guanzhu_flag = e.currentTarget.dataset.guanzhuFlag;
     var param = {
       user_id: owner_id,
-      fans_id: vm.data.userInfo.id,
-      token: vm.data.userInfo.token
+      fans_id: app.globalData.userInfo.id
     }
     var userPageObj = vm.data.userPage
     userPageObj.guanzhu_flag = !guanzhu_flag
@@ -100,6 +83,5 @@ Page({
         console.log(JSON.stringify(ret))
       })
     }
-
   }
 })

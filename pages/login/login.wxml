@@ -8,10 +8,10 @@
       <image src="../../images/logo_c.png" class="head-image-larb"></image>
     </view>
     <view style="position: absolute;top:225px;width:100%;" class="text-center">
-      <text class="font-size-18">让世界享受艺术生活</text>
+      <text class="font-size-18">那人却在灯火阑珊处</text>
     </view>
     <view style="position: absolute;top:255px;width:100%;" class="text-center">
-      <text class="font-size-12 grey-font">潜力榜/画展/推广/交流</text>
+      <text class="font-size-12 grey-font">记录/分享/推广/交流</text>
     </view>
 
     <!--按钮-->

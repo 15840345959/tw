@@ -1,9 +1,0 @@
-/**index.wxss**/
-
-.left-arrow {
-  width: 34px;
-  height: 34px;
-  position: absolute;
-  top: 15px;
-  left: 15px;
-}

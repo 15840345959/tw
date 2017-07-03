@@ -1,108 +1,94 @@
+<import src="/pages/templates/commentTpl/commentTpl.wxml" />
+
 <view class="page">
   <!--页头-->
   <view class="page__hd"></view>
   <!--主体-->
-  <view class="page__bd page__bd_spacing" style="position:relative;">
-    <!--画夹图片-->
-    <image src="{{twInfo.img}}" mode="aspectFill" class="hot-image" style="width:{{systemInfo.windowWidth}}px;height:{{systemInfo.windowWidth}}px" data-index="0" data-curr-url="{{twInfo.img}}" bindtap="clickImg"></image>
-    <!--操作图标-->
-    <image src="../../images/left_arrow.png" style="position: absolute;left: 15px;top: 15px;" class="opt-icon-32" bindtap="clickBack"></image>
-    <image src="../../images/comment_icon.png" style="position: absolute;right: 15px;top: 15px;" class="opt-icon-32" data-tw-id="{{twInfo.id}}" bindtap="clickPingLun"></image>
-    <image src="../../images/show_icon.png" style="position: absolute;right: 40px;bottom: 15px;" class="opt-icon-20"></image>
-    <text style="position: absolute;right: 15px;bottom: 15px;" class="white-font font-size-12">{{twInfo.show_time}}</text>
-  </view>
-
-  <!--分投的log-->
-  <view style="position:fixed;bottom:100px;right:5px;">
-    <image src="../../images/logo.png" class="opt-icon-lar" bindtap="clickLogo"></image>
-  </view>
-
-  <!--画夹基本信息-->
-  <view class="weui-flex margin-top-15">
-    <view class="weui-flex__item text-center font-size-18">
-      {{twInfo.title}}
-    </view>
-  </view>
-  <view class="weui-flex margin-top-10">
-    <view class="weui-flex__item text-center font-size-16 grey-font">
-      {{twInfo.intro}}
-    </view>
-  </view>
-  <!--头像信息-->
-  <view class="weui-flex margin-top-25">
-    <view class="weui-flex__item text-center">
-      <image src="{{ownerInfo.avatar}}" class="head-image-lar"></image>
-    </view>
-  </view>
-  <view class="weui-flex margin-top-15">
-    <view class="weui-flex__item text-center font-size-16">
-      {{ownerInfo.nick_name}}
-    </view>
-  </view>
-
-  <view style="height:10px;"></view>
-  <!--作品详情-->
-  <block wx:for="{{twStepInfos}}" wx:key="id" wx:for-index="idx" wx:for-item="step">
-    <view class="weui-flex margin-top-10">
-      <view class="weui-flex__item text-center">
-        <image wx:if="{{step.img.length>0}}" src="{{step.img}}" mode="aspectFit" data-index="{{index}}" data-curr-url="{{step.img}}" bindtap="clickImg" style="width:100%;"></image>
-      </view>
-    </view>
-    <view class="weui-flex margin-bottom-10">
-      <view class="weui-flex__item text-center font-size-16">
-        {{step.text}}
-      </view>
-    </view>
-  </block>
-
-  <!--评论详情-->
-  <block wx:for="{{commentDetailInfos}}" wx:key="id" wx:for-index="idx" wx:for-item="step">
-    <view class="weui-panel__bd">
-      <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
-        <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-          <image class="weui-media-box__thumb head-image-sma" src="{{step.userInfo.avatar}}" />
+  <view class="page__bd">
+    <!--作品部分信息-->
+    <view wx:if="{{twInfo.title.length>0}}" class="white-bg">
+      <view class="margin-left-15 margin-right-15">
+        <view class="font-size-18 padding-top-15">
+          {{twInfo.title}}
         </view>
-        <view class="weui-media-box__bd weui-media-box__bd_in-appmsg border-bottom-lg">
-          <view class="weui-media-box__title font-size-16">{{step.userInfo.nick_name}}</view>
-          <view class="weui-media-box__desc  font-size-16 margin-top-10">{{step.commentInfo.text}}
+        <view class="font-size-14 grey-font">
+          <text>{{twInfo.create_time}}</text>
+          <text class="blue-font margin-left-10">{{ownerInfo.nick_name}} </text>
+          <text class="margin-left-5">阅读 {{twInfo.show_time}} </text>
+          <text class="margin-left-5">点赞 {{twInfo.favor_num}} </text>
+        </view>
+        <!--过程信息-->
+        <view style="height:10px;"></view>
+
+        <!--音乐-->
+        <view wx:if="{{musicInfo.dataUrl.length>0}}" class="">
+          <audio poster="{{musicInfo.coverImgUrl}}" name="{{musicInfo.title}}" author="{{musicInfo.author}}" src="{{musicInfo.dataUrl}}" id="bgMusic" controls loop></audio>
+        </view>
+
+        <!--作品详情-->
+        <block wx:for="{{twStepInfos}}">
+          <view wx:if="{{item.img.length>0}}" class="margin-top-5">
+            <image id="{{index}}" src="{{item.img}}" style="width: {{item.imageWidth}}px; height:{{item.imageHeight}}px;" bindload="imageLoad" data-index="{{index}}" data-curr-url="{{item.img}}" bindtap="clickImg"></image>
           </view>
-          <view class="weui-media-box__desc margin-bottom-15 grey-font font-size-12 margin-top-15">{{step.commentInfo.t_date}}</view>
-        </view>
-      </navigator>
-    </view>
-  </block>
-
-  <!--下方站位-->
-  <view style="height:80px;"></view>
-
-  <!--页脚-->
-  <view class="weui-footer weui-footer_fixed-bottom white-bg border-top">
-    <view class="weui-flex margin-top-10" style="width:100%;display:flex;align-items:center;">
-      <view>
-        <view class="placeholder" style="text-algin:left;">
-          <text class="margin-left-10" bindtap="openPmIntro">分享上头条</text>
-        </view>
-      </view>
-      <view class="weui-flex__item">
-        <view class="placeholder" style="text-algin:left;">
-          <progress percent="{{twInfo.favor_num}}" stroke-width="5" class="margin-left-15 margin-right-15" />
-        </view>
-      </view>
-      <view class="">
-        <view class="placeholder" style="text-algin:left;">
-          <text class="margin-right-10"> {{twInfo.favor_num}}/100</text>
-        </view>
-      </view>
-      <view>
-        <view class="placeholder" data-folder-id="{{twInfo.id}}" data-praise-flag="{{praise_flag}}" class="weui-flex__item margin-right-15" bindtap="clickZan">
-          <view wx:if="{{praise_flag}}">
-            <image src="../../images/favor_r.png" class="opt-icon-nor "></image>
+          <view wx:if="{{item.text.length>0}}" class="font-size-14">
+            {{item.text}}
           </view>
-          <view wx:else>
-            <image src="../../images/favor_n.png" class="opt-icon-nor"></image>
+        </block>
+        <view style="height:10px;"></view>
+      </view>
+    </view>
+    <!--作者头像部分-->
+    <view wx:if="{{ownerInfo.nick_name.length>0}}" class="white-bg margin-top-15">
+      <view class="margin-left-15 margin-right-15 padding-top-15 padding-bottom-5">
+        <view class="weui-flex">
+          <view catchtap="onUserClick" data-user-id="{{ownerInfo.id}}">
+            <view class="placeholder">
+              <image src="{{ownerInfo.avatar}}" class="head-image-mid"></image>
+            </view>
+          </view>
+          <view class="weui-flex__item">
+            <view class="placeholder">
+              <view class="margin-left-15">
+                <view class="font-size-14">
+                  {{ownerInfo.nick_name}}
+                </view>
+                <view class="font-size-12 grey-font text-oneline">
+                  {{ownerInfo.signature}}
+                </view>
+              </view>
+            </view>
+
+          </view>
+          <view>
+            <view class="placeholder">
+              <button open-type="share" plain="true" style="border: 0px solid #000;">
+                <image src="../../images/icard_icon.png" class="opt-icon-nor"></image>
+              </button>
+            </view>
           </view>
         </view>
       </view>
     </view>
+
+    <!--评论信息-->
+    <view wx:if="{{commentDetailInfos.length>0}}" class="white-bg margin-top-15">
+      <view class="margin-left-15 margin-right-15 padding-top-10">
+        <view class="line-text-bl font-size-14">
+          <text class="margin-left-10">最新评论</text>
+        </view>
+        <block wx:for="{{commentDetailInfos}}">
+          <template is="commentList" data="{{...item}}" />
+        </block>
+      </view>
+    </view>
+
+    <!--下方站位-->
+    <view style="height:60px;"></view>
+
+    <!--页脚-->
+    <view wx:if="{{twInfo.title.length>0}}" class="weui-footer weui-footer_fixed-bottom white-bg border-top" style="z-index:999;">
+      <include src="/pages/tw/bottom/twBoOpt.wxml" />
+    </view>
+
   </view>
 </view>

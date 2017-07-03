@@ -1,47 +1,117 @@
-<!--index.wxml-->
 <view class="page">
-  <view id="twInfo" class="cover_content">
-    <image src="{{twInfo.img_s}}" class="twInfo-img" style="width:100%" mode="aspectFill"></image>
-    <view class="settitle font-size-20" data-id="twInfo_title" data-plach="请设置图文标题" data-value="{{twInfo.title}}" bindtap="setInputText">
-      <text wx:if="{{twInfo.title.length>0}}">{{twInfo.title}}</text>
-      <text wx:else>点击设置标题</text>
+  <!--页头-->
+  <view class="page__hd"></view>
+  <!--主体-->
+  <view class="page__bd">
+    <!--封皮部分-->
+    <view style="position:relative;">
+      <image src="{{twInfo.img_s}}" class="paint-bg" mode="aspectFill"></image>
+      <view class="mask-div-black-dd paint-bg"></view>
+      <!--操作图标-->
+      <view style="position: absolute;bottom:15px;left:20px;" bindtap="setMusic">
+        <view>
+          <view class="text-center">
+            <image wx:if="{{twInfo.music_id}}" src="{{twInfo.music_cover}}" class="opt-icon-32 head-img-circle"></image>
+            <image wx:else src="../../images/add_music_icon.png" class="opt-icon-32 head-img-circle"></image>
+          </view>
+          <view class="text-center font-size-12 white-font" style="margin-top:-6px;">
+            添加音乐
+          </view>
+        </view>
+      </view>
+
+      <view style="position: absolute;top:20px;right:20px;" bindtap="setSetting">
+        <view>
+          <view class="text-center">
+            <image src="../../images/setting_c_icon.png" class="opt-icon-32 head-img-circle"></image>
+          </view>
+        </view>
+      </view>
+
+      <view style="position: absolute;bottom:15px;right:20px;" bindtap="setTWImg">
+        <view>
+          <view class="text-center">
+            <image src="../../images/add_fengpi_icon.png" class="opt-icon-32 head-img-circle"></image>
+          </view>
+          <view class="text-center font-size-12 white-font" style="margin-top:-6px;">
+            编辑封面
+          </view>
+        </view>
+      </view>
+      <!--标题-->
+      <view style="position: absolute;top:45px;width:100%;" class="font-size-18 text-center white-font text-oneline" data-id="twInfo_title" data-plach="请设置图文标题" data-value="{{twInfo.title}}" bindtap="setInputText">
+        <view class="text-center margin-left-15 margin-right-15">
+          <text wx:if="{{twInfo.title.length>0}}">{{twInfo.title}}</text>
+          <text wx:else>点击设置标题</text>
+        </view>
+      </view>
     </view>
-    <view class="addIntro font-size-14" data-id="twInfo_intro" data-plach="请编辑故事简介" data-value="{{twInfo.intro}}" data-length="140" bindtap="setInputText">文章简述</view>
-    <view class="editcover font-size-14" bindtap="setTWImg">编辑封面</view>
-  </view>
 
-  <view>
-    <blcok wx:for="{{twStepInfos}}" wx:key="id" wx:for-index="idx" wx:for-item="step">
-
-      <view class="tuwen_con">
-        <view class="tuwen">
-          <image src="../../images/edit_delete.png" style="height:12px;width:12px;position: absolute;left:5px;top:5px;z-index:100;" id="{{idx}}" bindtap="deltunwen" />
-          <view url="" class="weui-media-box weui-media-box_appmsg">
-            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-              <image class="weui-media-box__thumb" src="{{step.img_s}}" style="height:69px;width:69px;" mode="aspectFill" data-step-image-id="{{idx}}" bindtap="changeStepImg" />
+    <!--编辑内容部分-->
+    <blcok wx:for="{{twStepInfos}}" wx:key="id" wx:for-index="index" wx:for-item="step">
+      <view>
+        <view class="margin-top-5 white-bg">
+          <!--图文部分 根据type设定 start-->
+          <view wx:if="{{step.type == 'image'}}" class="weui-flex">
+            <view class="">
+              <view class="placeholder">
+                <image src="{{step.img_s}}" style="width:180rpx;height:180rpx;margin:10px;" mode="aspectFill" data-step-image-id="{{index}}" bindtap="changeStepImg"></image>
+              </view>
             </view>
-            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-              <view class="weui-media-box__desc margin-left-5" data-id="step_text{{idx}}" data-plach="请设置图文内容" data-length="140" data-value="{{step.text}}" bindtap="setInputText">
-                <text wx:if="{{step.text.length>0}}">{{step.text}}</text>
-                <text wx:else>设置图文内容</text>
+            <view class="weui-flex__item">
+              <view data-id="step_text{{index}}" data-plach="请设置图文内容" data-length="140" data-value="{{step.text}}" bindtap="setInputText">
+                <view wx:if="{{step.text.length>0}}" class="placeholder font-size-14 text-fourline margin-top-10">{{step.text}}</view>
+                <view wx:else class="placeholder font-size-14 text-fourline margin-top-10  grey-font">设置文字内容，写下你想说的吧</view>
+              </view>
+            </view>
+          </view>
+          <view wx:else class="weui-flex">
+            <view class="weui-flex__item">
+              <view data-id="step_text{{index}}" data-plach="请设置图文内容" data-length="140" data-value="{{step.text}}" bindtap="setInputText">
+                <view wx:if="{{step.text.length>0}}" class="placeholder font-size-14 text-sixline" style="margin:15px;"> {{step.text}}</view>
+                <view wx:else class="placeholder font-size-14 text-sixline grey-font" style="margin:15px;">设置文字内容，写下你想说的吧</view>
+              </view>
+            </view>
+          </view>
+          <!--图文部分 根据type设定 end-->
+          <view class="border-top margin-left-10 margin-right-10">
+            <!--下方操作图标部分-->
+            <view class="weui-flex padding-top-10">
+              <view class="">
+                <view class="placeholder">
+                  <image src="../../images/delete_icon.png" class="opt-icon-28" id="{{index}}" bindtap="deltunwen"></image>
+                  <image src="../../images/edit_icon.png" class="opt-icon-28 margin-left-10" data-id="step_text{{index}}" data-plach="请设置图文内容" data-length="140" data-value="{{step.text}}" bindtap="setInputText"></image>
+                </view>
+              </view>
+              <view class="weui-flex__item">
+                <view class="placeholder">
+                </view>
+              </view>
+              <view class="">
+                <view class="placeholder">
+                  <image src="../../images/up_pointer_icon.png" class="opt-icon-28" id="{{index}}" bindtap="uptunwen"></image>
+                  <image src="../../images/down_pointer_icon.png" class="opt-icon-28 margin-left-10" id="{{index}}" bindtap="downtuwen"></image>
+                </view>
               </view>
             </view>
           </view>
         </view>
-        <view class="addtuwen" bindtap="addtuwen" id="{{idx}}">
-          <view class="jiahao">+</view>
+        <view class="text-center margin-top-15">
+          <view>
+            <image src="../../images/add_button_icon.png" class="opt-icon-36" bindtap="addtuwen" id="{{index}}"></image>
+          </view>
         </view>
       </view>
     </blcok>
-    <!--设置空白区-->
-    <view style="height:60px;width:100%;background:#f8f8f8;"></view>
-  </view>
 
-  <!--页脚-->
-  <view class="weui-footer weui-footer_fixed-bottom" style="background:#52a341" bindtap="publishTW">
-    <view class="weui-flex" style="width:100%;" class="padding-top-10 padding-bottom-10 white-font font-size-18">
-      发布我的作品
+    <!--占位符-->
+    <view style="height:80px;"></view>
+    <!--页脚-->
+    <view class="weui-footer weui-footer_fixed-bottom" style="background:#5CADFF;z-index:999;" bindtap="publishTW">
+      <view class="weui-flex" style="width:100%;" class="padding-top-10 padding-bottom-10 white-font font-size-18">
+        发布
+      </view>
     </view>
-  </view>
 
+  </view>
 </view>

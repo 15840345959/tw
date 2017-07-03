@@ -720,7 +720,6 @@ icon {
   position: absolute;
   left: 0;
   top: 0;
-
   bottom: 0;
   border-left: 1rpx solid #c7c7c7;
   color: #c7c7c7;
@@ -1133,8 +1132,7 @@ icon {
   display: flex;
   box-sizing: border-box;
   background-color: #efeff4;
-  border-top: 1rpx solid #d7d6dc;
-  border-bottom: 1rpx solid #d7d6dc;
+  border-bottom: 1rpx solid #f0f0f0;
 }
 
 .weui-icon-search {
@@ -1166,8 +1164,8 @@ icon {
 
 .weui-search-bar__box {
   position: relative;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 20px;
+  padding-right: 10px;
   width: 100%;
   box-sizing: border-box;
   z-index: 1;

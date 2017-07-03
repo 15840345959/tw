@@ -1,19 +1,19 @@
 <!--该模板用于首页展示-->
 <template name="twListIndex">
-  <view class="margin-top-10">
+  <view class="margin-top-10 tw-div-shadow">
     <view style="margin-left:5px;margin-right:5px;border-radius:5px;" class="white-bg">
-      <view style="position:relative;" bindtap="onTWClick" data-tw-id="{{twInfo.id}}">
+      <view style="position:relative;" catchtap="onTWClick" data-tw-id="{{twInfo.id}}">
         <image src="{{twInfo.img}}" class="tw-img" mode="aspectFill"></image>
         <view class="tw-img mask-div-black"></view>
-        <view class="font-size-18 tw-title text-shadow-grey">
-          {{twInfo.title}}
+        <view class="font-size-16 tw-title text-oneline tw-title-div" style="background-image: url('../../images/text_bmask.png');">
+          <text class="margin-left-10" style="margin-right:50px;">{{twInfo.title}}</text>
         </view>
       </view>
       <view>
         <view class="weui-flex padding-bottom-10">
           <view class="weui-flex__item" bindtap="onUserClick" data-user-id="{{userInfo.id}}">
             <view class="placeholder" style="display:flex;align-items:center;">
-              <image src="{{userInfo.avatar}}" class="head-image-sma margin-left-5"></image>
+              <image src="{{userInfo.avatar}}" class="head-image-sma margin-left-5" catchtap="onUserClick" data-user-id="{{userInfo.id}}"></image>
               <text class="font-size-16  margin-left-5">{{userInfo.nick_name}}</text>
             </view>
           </view>
@@ -31,4 +31,54 @@
       </view>
     </view>
   </view>
+</template>
+
+
+<!--该模板用于个人中心展示-->
+<template name="userTwList">
+  <view class="margin-top-10 tw-div-shadow">
+    <view style="margin-left:5px;margin-right:5px;border-radius:5px;">
+      <view style="position:relative;" catchtap="onTWClick" data-tw-id="{{twInfo.id}}">
+        <image src="{{twInfo.img}}" class="tw-img-u" mode="aspectFill"></image>
+        <view class="tw-img-u mask-div-black-g"></view>
+        <view class="font-size-16 tw-title text-oneline tw-title-div" style="background-image: url('../../images/text_bmask.png');">
+          <text class="margin-left-10" style="margin-right:50px;">{{twInfo.title}}</text>
+        </view>
+        <view class="font-size-14 tw-date text-oneline">
+          <text class="margin-left-10" style="margin-right:50px;">{{twInfo.create_time}}</text>
+        </view>
+        <!--私密设置-->
+        <view wx:if="{{twInfo.pri_flag=='1'}}" class="tw-pri-div white-font text-center font-size-12 pri-style grey-shadow opacity-8">
+          私密
+        </view>
+        <view wx:else class="tw-pri-div white-font text-center font-size-12 pri-style grey-shadow opacity-8">
+          公开
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+
+<!--该模板用于个人中心展示-->
+<template name="userTwListNoPri">
+  <view class="margin-top-10 tw-div-shadow">
+    <view style="margin-left:5px;margin-right:5px;border-radius:5px;">
+      <view style="position:relative;" catchtap="onTWClick" data-tw-id="{{twInfo.id}}">
+        <image src="{{twInfo.img}}" class="tw-img-u" mode="aspectFill"></image>
+        <view class="tw-img-u mask-div-black-g"></view>
+        <view class="font-size-16 tw-title text-oneline tw-title-div" style="background-image: url('../../images/text_bmask.png');">
+          <text class="margin-left-10" style="margin-right:50px;">{{twInfo.title}}</text>
+        </view>
+        <view class="font-size-14 tw-date text-oneline">
+          <text class="margin-left-10" style="margin-right:50px;">{{twInfo.create_time}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<!--图文基本样式-->
+<template name="twInfoBase">
+
 </template>

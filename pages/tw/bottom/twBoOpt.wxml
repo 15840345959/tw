@@ -1,0 +1,19 @@
+<view class="weui-flex margin-top-10" style="width:100%;display:flex;align-items:center;">
+  <view class="weui-flex__item" bindtap="clickZan">
+    <view class="placeholder">
+      <image src="../../images/favor_icon_b.png" class="opt-icon-nor"></image>
+    </view>
+  </view>
+  <view class="weui-flex__item" bindtap="clickPingLun">
+    <view class="placeholder">
+      <image src="../../images/comment_icon_b.png" class="opt-icon-nor"></image>
+    </view>
+  </view>
+  <view class="weui-flex__item" bindtap="clickShare">
+    <view class="placeholder">
+      <button open-type="share" plain="true" style="border: 0px solid #000;">
+        <image src="../../images/share_icon_b.png" class="opt-icon-nor"></image>
+      </button>
+    </view>
+  </view>
+</view>

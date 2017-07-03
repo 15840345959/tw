@@ -19,17 +19,10 @@ var vm = null
 //获取应用实例
 var app = getApp()
 
-var null_step = {
-  img_s: "../../images/def.png"
-}
-
-
 Page({
   data: {
-    userInfo: {},
-    systemInfo: {},
     twInfo: {},
-    twStepInfos: []
+    twStepInfos: [] //其中type代表文字/图片 text文字 image图片 
   },
 
   //初次加载执行逻辑
@@ -39,35 +32,6 @@ Page({
   //加载完毕
   onLoad: function (options) {
     vm = this
-
-    //调用应用实例的方法获取全局数据
-    //封装userInfo
-    app.getUserInfo(function (res) {
-      console.log("getUserInfo:" + JSON.stringify(res))
-      vm.setData({
-        userInfo: res
-      })
-      //获取七牛上传token
-      var param = {
-        token: vm.data.userInfo.token,
-        user_id: vm.data.userInfo.id,
-      }
-      util.getQnToken(param, function (res) {
-        console.log(JSON.stringify(res));
-        if (res.data.result) {
-          qnToken = res.data.obj;
-          console.log("qiniu upload token:" + qnToken)
-          initQiniu();
-        }
-      }, null);
-    })
-    //初始化sysInfo
-    app.getSystemInfo(function (res) {
-      console.log("getSystemInfo:" + JSON.stringify(res));
-      vm.setData({
-        systemInfo: res
-      })
-    })
 
     console.log("onLoad options:" + JSON.stringify(options));
     //如果paths不为空
@@ -81,6 +45,7 @@ Page({
       for (var i = 0; i < paths.length; i++) {
         var stepObj = {}
         stepObj.img_s = paths[i]
+        stepObj.type = "image"
         twInfoStepsObj.push(stepObj)
       }
       console.log("twInfoObj:" + JSON.stringify(twInfoObj) + " twInfoStepsObj:" + JSON.stringify(twInfoStepsObj));
@@ -97,9 +62,8 @@ Page({
   },
   //接收文字信息
   changeInputText: function (e) {
-
     console.log("changeInputText e:" + JSON.stringify(e));
-    //图文表
+    //图文标题
     if (e.id == "twInfo_title") {
       var obj = vm.data.twInfo;
       obj.title = e.value;
@@ -107,14 +71,7 @@ Page({
         twInfo: obj
       })
     }
-    //图文说明
-    if (e.id == "twInfo_intro") {
-      var obj = vm.data.twInfo;
-      obj.intro = e.value;
-      vm.setData({
-        twInfo: obj
-      })
-    }
+
     //步骤说明
     if (e.id.indexOf("step_text") >= 0) {
       var step_index = parseInt(e.id.replace("step_text", ""));
@@ -129,7 +86,6 @@ Page({
   //选择图文封面
   setTWImg: function (e) {
     console.log("setTWImg e:" + JSON.stringify(e))
-
     var param = {
       count: 1
     }
@@ -141,6 +97,7 @@ Page({
       })
     }, null, null);
   },
+  //选择步骤图片
   changeStepImg: function (e) {
     console.log("changeStepImg e:" + JSON.stringify(e))
 
@@ -157,7 +114,7 @@ Page({
   onPullDownRefresh: function () {
     setTimeout(function () {
       wx.stopPullDownRefresh();
-    }, 500)
+    }, 100)
   },
 
   //上拉加载
@@ -191,17 +148,99 @@ Page({
       }
     });
   },
+  //点击添加图文
   addtuwen: function (e) {
     var step_index = e.currentTarget.id
     console.log("deltunwen e:" + JSON.stringify(e) + " step_index:" + step_index);
+
+    //用户选择添加图文/文字
+    wx.showActionSheet({
+      itemList: ['图+文', '纯文字'],
+      success: function (res) {
+        console.log(res.tapIndex)
+        switch (res.tapIndex) {
+          case 0:
+            var param = {
+              count: 1
+            }
+            util.chooseImage(param, function (res) {
+              var img_path = res.tempFilePaths[0]
+              var stepObj = {}
+              stepObj.type = "image"
+              stepObj.img_s = img_path
+              vm.addStepInfo(stepObj, step_index)
+            }, null, null);
+            break
+          case 1:
+            var stepObj = {}
+            stepObj.type = "text"
+            vm.addStepInfo(stepObj, step_index)
+            break
+        }
+
+      },
+      fail: function (res) {
+        console.log(res.errMsg)
+      }
+    })
+
+
+  },
+  //添加图文元素  stepObj图文对象 step_index图文索引
+  addStepInfo: function (stepObj, step_index) {
     var twStepInfosObj = vm.data.twStepInfos;
     console.log("twStepInfosObj before:" + JSON.stringify(twStepInfosObj));
-    twStepInfosObj.splice(parseInt(step_index) + 1, 0, null_step)
+    twStepInfosObj.splice(parseInt(step_index) + 1, 0, stepObj)
     console.log("twStepInfosObj after:" + JSON.stringify(twStepInfosObj));
     vm.setData({
       twStepInfos: twStepInfosObj
     })
   },
+
+  //上移图文
+  uptunwen: function (e) {
+    var step_index = parseInt(e.currentTarget.id)
+    console.log("deltunwen e:" + JSON.stringify(e) + " step_index:" + step_index);
+    if (step_index == 0) {
+      util.showToast('已经置顶')
+      return
+    }
+    util.showLoading('调整顺序')
+    var twStepInfosObj = vm.data.twStepInfos
+    var reObj = util.clone(twStepInfosObj[step_index - 1])
+    twStepInfosObj[step_index - 1] = twStepInfosObj[step_index]
+    twStepInfosObj[step_index] = reObj
+    vm.setData({
+      twStepInfos: twStepInfosObj
+    })
+    console.log("twStepInfos:" + JSON.stringify(vm.data.twStepInfos))
+    util.hideLoading();
+  },
+  //下移图文
+  downtuwen: function (e) {
+    var step_index = parseInt(e.currentTarget.id)
+    console.log("deltunwen e:" + JSON.stringify(e) + " step_index:" + step_index + " twStepInfos.length:" + vm.data.twStepInfos.length);
+    if (step_index == vm.data.twStepInfos.length - 1) {
+      util.showToast('已经置底')
+      return
+    }
+    util.showLoading('调整顺序')
+    var twStepInfosObj = vm.data.twStepInfos
+    console.log("twStepInfos:" + JSON.stringify(vm.data.twStepInfos))
+    var reObj = util.clone(twStepInfosObj[parseInt(step_index) + 1])
+    console.log("reObj:" + JSON.stringify(reObj))
+    console.log("twStepInfosObj[step_index]:" + JSON.stringify(twStepInfosObj[step_index]))
+    twStepInfosObj[step_index + 1] = twStepInfosObj[step_index]
+    console.log("twStepInfos:" + JSON.stringify(vm.data.twStepInfos) + " reObj:" + JSON.stringify(reObj))
+    twStepInfosObj[step_index] = reObj
+    console.log("twStepInfos:" + JSON.stringify(vm.data.twStepInfos))
+    vm.setData({
+      twStepInfos: twStepInfosObj
+    })
+    console.log("twStepInfos:" + JSON.stringify(vm.data.twStepInfos))
+    util.hideLoading();
+  },
+  //发布图文
   publishTW: function (e) {
     console.log("publishTW e:" + JSON.stringify(e));
     console.log("publishTW twInfo:" + JSON.stringify(vm.data.twInfo));
@@ -221,6 +260,23 @@ Page({
         return;
       }
     }
+    //合规校验通过进行上传
+    var param = {
+
+    }
+    util.getQnToken(param, function (res) {
+      console.log(JSON.stringify(res));
+      if (res.data.result) {
+        qnToken = res.data.obj;
+        console.log("qiniu upload token:" + qnToken)
+        initQiniu();
+        //获取token成功后创建图文
+        vm.createTW()
+      }
+    }, null);
+  },
+  //发布图文
+  createTW: function (e) {
     util.showLoading("发布图文");
     //进行七牛上传
     //上传封面
@@ -278,6 +334,7 @@ Page({
         //图文数据
         var twInfoObj = util.clone(vm.data.twInfo)
         delete twInfoObj.img_s
+        delete twInfoObj.music_cover
         //步骤数据
         var twStepInfosObj = [];
         for (var i = 0; i < vm.data.twStepInfos.length; i++) {
@@ -289,9 +346,7 @@ Page({
         //发布作品
         var param = {
           twInfo: twInfoObj,
-          twStepInfos: twStepInfosObj,
-          token: vm.data.userInfo.token,
-          user_id: vm.data.userInfo.id,
+          twStepInfos: twStepInfosObj
         }
 
         util.publishTW(param, function (ret) {
@@ -305,13 +360,59 @@ Page({
               url: targetUrl
             })
           }
-
-          util.hideLoading();
         });
       }
 
     }, (error) => {
       console.error('error: ' + JSON.stringify(error));
     });
+  },
+  //获取音乐
+  selectMusic: function (e) {
+    console.log(JSON.stringify(e))
+    var twInfoObj = vm.data.twInfo
+    //music_id==0，代表不设置音乐
+    if (e.music_id == "0") {
+      delete twInfoObj.music_id
+      delete twInfoObj.music_cover
+    } else {
+      twInfoObj.music_id = e.music_id
+      twInfoObj.music_cover = e.music_cover
+    }
+    vm.setData({
+      twInfo: twInfoObj
+    })
+  },
+  //点击选择音乐
+  setMusic: function (e) {
+    var targetUrl = util.MUSIC_PAGE
+    wx.navigateTo({
+      url: targetUrl
+    })
+  },
+  //选择设置
+  selectSetting: function (e) {
+    console.log("selectSetting" + JSON.stringify(e))
+    var twInfoObj = vm.data.twInfo
+    if (!util.judgeIsAnyNullStr(e.fcomm_flag)) {
+      twInfoObj.fcomm_flag = e.fcomm_flag
+    }
+    if (!util.judgeIsAnyNullStr(e.pri_flag)) {
+      twInfoObj.pri_flag = e.pri_flag
+    }
+    if (!util.judgeIsAnyNullStr(e.type)) {
+      twInfoObj.type = e.type
+    }
+    vm.setData({
+      twInfo: twInfoObj
+    })
+    console.log(JSON.stringify(vm.data.twInfo))
+  },
+  //点击个性化设置
+  setSetting: function (e) {
+    console.log("setSetting e:" + JSON.stringify(e))
+    wx.navigateTo({
+      url: util.TWSeting_PAGE + "?twInfo=" + JSON.stringify(vm.data.twInfo)
+    })
   }
 });
