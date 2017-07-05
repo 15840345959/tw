@@ -76,6 +76,25 @@ Page({
       }
     })
   },
+  //编辑图文
+  editTW: function (e) {
+    console.log(JSON.stringify(e))
+    var tw_id = e.currentTarget.dataset.twId
+    var param = {
+      tw_id: tw_id
+    }
+    util.showLoading('加载数据')
+    util.getTWInfoById(param, function (ret) {
+      console.log("ret" + JSON.stringify(ret))
+      if (ret.data.code == "200") {
+        var msgObj = ret.data.obj
+        console.log("msgObj:" + JSON.stringify(msgObj))
+        wx.navigateTo({
+          url: '/pages/paint/paint?twDetailInfo=' + JSON.stringify(msgObj),
+        })
+      }
+    })
+  },
   //删除图文
   deleteTW: function (e) {
     console.log(JSON.stringify(e))

@@ -1,6 +1,6 @@
 import Promise from './es6-promise.min'
 
-var TESTMODE = false;
+var TESTMODE = true;
 
 //服务器地址
 var SERVER_URL = "https://isart.me";
@@ -135,6 +135,11 @@ function updateUserInfo(param, successCallback, errorCallback) {
 //上传图文
 function publishTW(param, successCallback, errorCallback) {
   wxRequest(SERVER_URL + '/TWServer/APP/createTWBaseInfo.do', param, "POST", successCallback, errorCallback);
+}
+
+//更新图文
+function updateTW(param, successCallback, errorCallback) {
+  wxRequest(SERVER_URL + '/TWServer/APP/updateTWBaseInfo.do', param, "POST", successCallback, errorCallback);
 }
 
 //根据图文id获取图文详情
@@ -500,6 +505,7 @@ module.exports = {
   updateUserInfo: updateUserInfo,
   getTWInfoListByOwnerId: getTWInfoListByOwnerId,
   publishTW: publishTW,
+  updateTW: updateTW,
   commentTW: commentTW,
   getTWInfoById: getTWInfoById,
   getTWInfoByCon: getTWInfoByCon,

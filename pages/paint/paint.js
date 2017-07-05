@@ -32,7 +32,7 @@ Page({
   //加载完毕
   onLoad: function (options) {
     vm = this
-
+    //获取接入参数
     console.log("onLoad options:" + JSON.stringify(options));
     //如果paths不为空
     if (!util.judgeIsAnyNullStr(options.paths)) {
@@ -47,6 +47,34 @@ Page({
         stepObj.img_s = paths[i]
         stepObj.type = "image"
         twInfoStepsObj.push(stepObj)
+      }
+      vm.setData({
+        twInfo: twInfoObj,
+        twStepInfos: twInfoStepsObj
+      })
+    }
+
+    //如果twDetaiInfo不为空
+    if (!util.judgeIsAnyNullStr(options.twDetailInfo)) {
+      var twDetailInfo = JSON.parse(options.twDetailInfo);
+      console.log("twDetailInfo:" + JSON.stringify(twDetailInfo))
+      //设置页面
+      var twInfoObj = twDetailInfo.twInfo
+      twInfoObj.img_s = util.qiniuUrlTool(twInfoObj.img, "folder_index")
+      //音乐信息
+      if (!util.judgeIsAnyNullStr(twInfoObj.music_id)) {
+        twInfoObj.music_cover = twDetailInfo.musicInfo.coverImgUrl
+      }
+
+      var twInfoStepsObj = twDetailInfo.twStepInfos
+      for (var i = 0; i < twInfoStepsObj.length; i++) {
+        //如果图片为空，代表为文字
+        if (util.judgeIsAnyNullStr(twInfoStepsObj[i].img)) {
+          twInfoStepsObj[i].type = "text"
+        } else {
+          twInfoStepsObj[i].type = "image"
+          twInfoStepsObj[i].img_s = util.qiniuUrlTool(twInfoStepsObj[i].img, "folder_index")
+        }
       }
       console.log("twInfoObj:" + JSON.stringify(twInfoObj) + " twInfoStepsObj:" + JSON.stringify(twInfoStepsObj));
       vm.setData({
@@ -155,7 +183,7 @@ Page({
 
     //用户选择添加图文/文字
     wx.showActionSheet({
-      itemList: ['图+文', '纯文字'],
+      itemList: ['图文形式', '文字段落'],
       success: function (res) {
         console.log(res.tapIndex)
         switch (res.tapIndex) {
@@ -261,9 +289,7 @@ Page({
       }
     }
     //合规校验通过进行上传
-    var param = {
-
-    }
+    var param = {}
     util.getQnToken(param, function (res) {
       console.log(JSON.stringify(res));
       if (res.data.result) {
@@ -281,16 +307,24 @@ Page({
     //进行七牛上传
     //上传封面
     var twInfoObj = vm.data.twInfo
+    //仅进行文字更新判断
+    var only_modify_text = true;
     if (util.isLocalImg(twInfoObj.img_s)) {
-      this.uploadImg(10000);
+      this.uploadImg(10000)
+      only_modify_text = false
     }
     //上传图文
     var twStepInfosObj = vm.data.twStepInfos;
     for (var i = 0; i < twStepInfosObj.length; i++) {
       //如果是本地图片
       if (util.isLocalImg(twStepInfosObj[i].img_s)) {
-        this.uploadImg(i);
+        this.uploadImg(i)
+        only_modify_text = false
       }
+    }
+    //如果只更新文字，则调用StoreToServer
+    if (only_modify_text) {
+      vm.storeTWToServer()
     }
   },
   //进行图片上传
@@ -329,43 +363,62 @@ Page({
       console.log("qiniuUploader handle upload_count:" + upload_count);
       //代表全部上传完毕
       if (upload_count == 0) {
-        console.log("新建作品，调用接口")
-        //整理数据
-        //图文数据
-        var twInfoObj = util.clone(vm.data.twInfo)
-        delete twInfoObj.img_s
-        delete twInfoObj.music_cover
-        //步骤数据
-        var twStepInfosObj = [];
-        for (var i = 0; i < vm.data.twStepInfos.length; i++) {
-          var obj = util.clone(vm.data.twStepInfos[i])
-          obj.seq = i
-          delete obj.img_s
-          twStepInfosObj.push(obj)
-        }
-        //发布作品
-        var param = {
-          twInfo: twInfoObj,
-          twStepInfos: twStepInfosObj
-        }
-
-        util.publishTW(param, function (ret) {
-          console.log(JSON.stringify(ret))
-          if (ret.data.code == '200') {
-            var tw_id = ret.data.obj
-            //跳转到图文页面
-            var targetUrl = util.TW_PAGE + '?id=' + tw_id;
-            console.log("onFolderClick targetUrl:" + targetUrl);
-            wx.navigateTo({
-              url: targetUrl
-            })
-          }
-        });
+        vm.storeTWToServer()
       }
-
     }, (error) => {
       console.error('error: ' + JSON.stringify(error));
     });
+  },
+  //服务端保存数据
+  storeTWToServer: function (e) {
+    console.log("新建作品，调用接口")
+    //整理数据
+    //图文数据
+    var twInfoObj = util.clone(vm.data.twInfo)
+    delete twInfoObj.img_s
+    delete twInfoObj.music_cover
+    //步骤数据
+    var twStepInfosObj = [];
+    for (var i = 0; i < vm.data.twStepInfos.length; i++) {
+      var obj = util.clone(vm.data.twStepInfos[i])
+      obj.seq = i
+      delete obj.img_s
+      twStepInfosObj.push(obj)
+    }
+    //发布作品
+    var param = {
+      twInfo: twInfoObj,
+      twStepInfos: twStepInfosObj
+    }
+    //如果twInfoObj的id为空，则为新建
+    if (util.judgeIsAnyNullStr(twInfoObj.id)) {
+      util.publishTW(param, function (ret) {
+        console.log(JSON.stringify(ret))
+        if (ret.data.code == '200') {
+          var tw_id = ret.data.obj
+          //跳转到图文页面
+          var targetUrl = util.TW_PAGE + '?id=' + tw_id;
+          console.log("onFolderClick targetUrl:" + targetUrl);
+          wx.navigateTo({
+            url: targetUrl
+          })
+        }
+      });
+    } else {
+      //更新图文信息
+      util.updateTW(param, function (ret) {
+        console.log(JSON.stringify(ret))
+        if (ret.data.code == '200') {
+          var tw_id = ret.data.obj
+          //跳转到图文页面
+          var targetUrl = util.TW_PAGE + '?id=' + tw_id;
+          console.log("onFolderClick targetUrl:" + targetUrl);
+          wx.navigateTo({
+            url: targetUrl
+          })
+        }
+      });
+    }
   },
   //获取音乐
   selectMusic: function (e) {

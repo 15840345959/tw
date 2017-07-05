@@ -55,8 +55,12 @@
           公开
         </view>
         <!--删除图标-->
-        <view class="tw-del-div opacity-8">
+        <view class="tw-del-div">
           <image src="../../images/delete_c_icon.png" class="opt-icon-28" catchtap="deleteTW" data-tw-id="{{twInfo.id}}" data-index="{{index}}"></image>
+        </view>
+        <!--编辑图标-->
+        <view class="tw-edit-div">
+          <image src="../../images/edit_c_icon.png" class="opt-icon-28" catchtap="editTW" data-tw-id="{{twInfo.id}}" data-index="{{index}}"></image>
         </view>
       </view>
     </view>
