@@ -61,7 +61,9 @@
                 <image src="../../images/setting_w_icon.png" class="opt-icon-nor"></image>
               </view>
               <view style="position: absolute;top:15px;right:20px;">
-                <image src="../../images/share_w_icon.png" class="opt-icon-nor"></image>
+                <button open-type="share" plain="true" style="border: 0px solid #000;">
+                  <image src="../../images/share_w_icon.png" class="opt-icon-nor"></image>
+                </button>
               </view>
               <!--头像+昵称+签名-->
               <view style="position: absolute;top:35px;width:100%;" class="text-center">
@@ -70,8 +72,8 @@
               <view style="position: absolute;top:100px;width:100%;" class="text-center">
                 <text class="font-size-16 white-font">{{userPage.userInfo.nick_name}}</text>
               </view>
-              <view style="position: absolute;top:125px;width:100%;" class="text-center" data-id="userInfo_my_sign" data-plach="设置签名，让更多的人认识你" data-value="{{userPage.userInfo.my_sign}}" bindtap="setInputText">
-                <text wx:if="{{userPage.userInfo.my_sign.length > 0 }}" class="font-size-14 white-font">{{userPage.userInfo.my_sign}}</text>
+              <view style="position: absolute;top:125px;width:100%;" class="text-center" data-id="userInfo_signature" data-plach="设置签名，让更多的人认识你" data-value="" bindtap="setInputText">
+                <text wx:if="{{userPage.userInfo.signature.length > 0 }}" class="font-size-14 white-font">{{userPage.userInfo.signature}}</text>
                 <text wx:else class="font-size-12 light-grey-font">设置签名，让更多的人认识你</text>
               </view>
               <!--作品数+粉丝数+关注数-->
@@ -88,7 +90,7 @@
                     </view>
                   </view>
                   <view class="weui-flex__item">
-                    <view class="placeholder">
+                    <view class="placeholder" catchtap="showGZ">
                       <view class="text-center font-size-14">
                         {{userPage.guanzhu_num}}
                       </view>
@@ -98,7 +100,7 @@
                     </view>
                   </view>
                   <view class="weui-flex__item">
-                    <view class="placeholder">
+                    <view class="placeholder" catchtap="showFans">
                       <view class="text-center font-size-14">
                         {{userPage.fans_num}}
                       </view>

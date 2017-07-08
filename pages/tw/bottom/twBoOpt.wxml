@@ -1,7 +1,8 @@
 <view class="weui-flex margin-top-10" style="width:100%;display:flex;align-items:center;">
   <view class="weui-flex__item" bindtap="clickZan">
     <view class="placeholder">
-      <image src="../../images/favor_icon_b.png" class="opt-icon-nor"></image>
+      <image wx:if="{{praise_flag}}" src="../../images/favor_icon_f.png" class="opt-icon-nor"></image>
+      <image wx:else src="../../images/favor_icon_b.png" class="opt-icon-nor"></image>
     </view>
   </view>
   <view class="weui-flex__item" bindtap="clickPingLun">

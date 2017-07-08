@@ -12,7 +12,9 @@
         <view class="mask-div-black-d head-bg"></view>
         <!--操作图标-->
         <view style="position: absolute;top:15px;right:20px;">
-          <image src="../../images/share_w_icon.png" class="opt-icon-nor"></image>
+          <button open-type="share" plain="true" style="border: 0px solid #000;">
+            <image src="../../images/share_w_icon.png" class="opt-icon-nor"></image>
+          </button>
         </view>
         <!--头像+昵称+签名-->
         <view style="position: absolute;top:35px;width:100%;" class="text-center">
@@ -39,7 +41,7 @@
               </view>
             </view>
             <view class="weui-flex__item">
-              <view class="placeholder">
+              <view class="placeholder" catchtap="showGZ">
                 <view class="text-center font-size-14">
                   {{userPage.guanzhu_num}}
                 </view>
@@ -49,7 +51,7 @@
               </view>
             </view>
             <view class="weui-flex__item">
-              <view class="placeholder">
+              <view class="placeholder" catchtap="showFans">
                 <view class="text-center font-size-14">
                   {{userPage.fans_num}}
                 </view>

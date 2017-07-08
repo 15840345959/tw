@@ -286,4 +286,46 @@ Page({
       path: '/pages/index/index'
     }
   },
+  //显示粉丝
+  showFans: function (e) {
+    console.log(JSON.stringify(e))
+    var targetUrl = util.FANS_PAGE + "?userInfo=" + JSON.stringify(vm.data.userPage.userInfo);
+    console.log("clickSearch targetUrl:" + targetUrl);
+    wx.navigateTo({
+      url: targetUrl
+    })
+  },
+  //显示关注
+  showGZ: function (e) {
+    console.log(JSON.stringify(e))
+    var targetUrl = util.GZ_PAGE + "?userInfo=" + JSON.stringify(vm.data.userPage.userInfo);
+    console.log("clickSearch targetUrl:" + targetUrl);
+    wx.navigateTo({
+      url: targetUrl
+    })
+  },
+  //点击设置签名
+  setInputText: function (e) {
+    console.log("setInputText e:" + JSON.stringify(e.currentTarget.dataset));
+    util.navigateToInput(e.currentTarget.dataset)
+  },
+  //接收文字信息
+  changeInputText: function (e) {
+    console.log("changeInputText e:" + JSON.stringify(e));
+    //图文标题
+    if (e.id == "userInfo_signature") {
+      var obj = vm.data.userPage;
+      obj.userInfo.signature = e.value;
+      vm.setData({
+        userPage: obj
+      })
+      //后台更新
+      var param = {
+        signature: e.value
+      }
+      util.updateUserInfo(param, function (ret) {
+        console.log(JSON.stringify(ret))
+      })
+    }
+  },
 })

@@ -425,3 +425,14 @@ page {
 .line-text-bl {
   border-left: 2px solid #000;
 }
+
+/*关注去下关注按钮*/
+
+.pra-btn {
+  text-align: center;
+  width: 46px;
+  height: 22px;
+  background-color: #5cadff;
+  border-radius: 3px;
+  line-height: 22px;
+}

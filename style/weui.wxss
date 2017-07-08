@@ -1131,8 +1131,6 @@ icon {
   display: -webkit-flex;
   display: flex;
   box-sizing: border-box;
-  background-color: #efeff4;
-  border-bottom: 1rpx solid #f0f0f0;
 }
 
 .weui-icon-search {

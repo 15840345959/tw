@@ -1,6 +1,6 @@
 import Promise from './es6-promise.min'
 
-var TESTMODE = true;
+var TESTMODE = false;
 
 //服务器地址
 var SERVER_URL = "https://isart.me";
@@ -203,6 +203,16 @@ function deleteTW(param, successCallback, errorCallback) {
 //搜索图文By关键字
 function getTWDetailInfoBySearchWord(param, successCallback, errorCallback) {
   wxRequest(SERVER_URL + '/TWServer/APP/getTWDetailInfoBySearchWord.do', param, "GET", successCallback, errorCallback);
+}
+
+//获取我的粉丝
+function getMyFans(param, successCallback, errorCallback) {
+  wxRequest(SERVER_URL + '/TWServer/APP/getMyFans.do', param, "GET", successCallback, errorCallback);
+}
+
+//获取我的关注
+function getMyGuanZhu(param, successCallback, errorCallback) {
+  wxRequest(SERVER_URL + '/TWServer/APP/getMyGuanZhu.do', param, "GET", successCallback, errorCallback);
 }
 
 /////////基本方法///////////////////////////////////////////
@@ -480,6 +490,8 @@ module.exports = {
   MUSIC_PAGE: "/pages/sMusic/sMusic",
   SEARCH_PAGE: "/pages/search/search",
   TWSeting_PAGE: "/pages/sSetting/sSetting",
+  FANS_PAGE: "/pages/fansPage/fansPage",
+  GZ_PAGE: "/pages/gzPage/gzPage",
   navigateToInput: navigateToInput,
   navigateToLogin: navigateToLogin,
   showLoading: showLoading,
@@ -516,5 +528,7 @@ module.exports = {
   cannelFansUser: cannelFansUser,
   deleteTW: deleteTW,
   getMusicInfos: getMusicInfos,
-  getTWDetailInfoBySearchWord: getTWDetailInfoBySearchWord
+  getTWDetailInfoBySearchWord: getTWDetailInfoBySearchWord,
+  getMyFans: getMyFans,
+  getMyGuanZhu: getMyGuanZhu
 }

@@ -8,7 +8,6 @@ var owner_id;
 var app = getApp()
 Page({
   data: {
-    userInfo: {},
     systemInfo: {},
     userPage: {}
   },
@@ -33,10 +32,15 @@ Page({
     var param = {
       owner_id: owner_id
     }
+    util.showLoading("加载数据")
     util.getUserPage(param, function (ret) {
       console.log("getUserPage ret:" + JSON.stringify(ret))
       if (ret.data.code == "200") {
         var msgObj = ret.data.obj
+        //设置标题
+        wx.setNavigationBarTitle({
+          title: msgObj.userInfo.nick_name + '的主页'
+        })
         for (var i = 0; i < msgObj.twDetailInfos.length; i++) {
           msgObj.twDetailInfos[i].twInfo.img = util.qiniuUrlTool(msgObj.twDetailInfos[i].twInfo.img, "folder_index")
           msgObj.twDetailInfos[i].twInfo.create_time = util.getDateStr(msgObj.twDetailInfos[i].twInfo.create_time)
@@ -83,5 +87,40 @@ Page({
         console.log(JSON.stringify(ret))
       })
     }
+  },
+  //进行分享
+  onShareAppMessage: function () {
+    return {
+      title: "我的分投",
+      desc: "我在分投记录了故事，你想来看看么",
+      path: '/pages/upage/upage?id=' + owner_id
+    }
+  },
+  //显示粉丝
+  showFans: function (e) {
+    console.log(JSON.stringify(e))
+    var targetUrl = util.FANS_PAGE + "?userInfo=" + JSON.stringify(vm.data.userPage.userInfo);
+    console.log("clickSearch targetUrl:" + targetUrl);
+    wx.navigateTo({
+      url: targetUrl
+    })
+  },
+  //显示粉丝
+  showFans: function (e) {
+    console.log(JSON.stringify(e))
+    var targetUrl = util.FANS_PAGE + "?userInfo=" + JSON.stringify(vm.data.userPage.userInfo);
+    console.log("clickSearch targetUrl:" + targetUrl);
+    wx.navigateTo({
+      url: targetUrl
+    })
+  },
+  //显示关注
+  showGZ: function (e) {
+    console.log(JSON.stringify(e))
+    var targetUrl = util.GZ_PAGE + "?userInfo=" + JSON.stringify(vm.data.userPage.userInfo);
+    console.log("clickSearch targetUrl:" + targetUrl);
+    wx.navigateTo({
+      url: targetUrl
+    })
   }
 })

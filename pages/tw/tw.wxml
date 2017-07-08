@@ -13,7 +13,7 @@
         </view>
         <view class="font-size-14 grey-font">
           <text>{{twInfo.create_time}}</text>
-          <text class="blue-font margin-left-10">{{ownerInfo.nick_name}} </text>
+          <text class="blue-font margin-left-10" catchtap="onUserClick" data-user-id="{{ownerInfo.id}}">{{ownerInfo.nick_name}} </text>
           <text class="margin-left-5">阅读 {{twInfo.show_time}} </text>
           <text class="margin-left-5">点赞 {{twInfo.favor_num}} </text>
         </view>
@@ -30,7 +30,7 @@
           <view wx:if="{{item.img.length>0}}" class="margin-top-5">
             <image id="{{index}}" src="{{item.img}}" style="width: {{item.imageWidth}}px; height:{{item.imageHeight}}px;" bindload="imageLoad" data-index="{{index}}" data-curr-url="{{item.img}}" bindtap="clickImg"></image>
           </view>
-          <view wx:if="{{item.text.length>0}}" class="font-size-14">
+          <view wx:if="{{item.text.length>0}}" class="font-size-16">
             {{item.text}}
           </view>
         </block>
@@ -52,7 +52,7 @@
                 <view class="font-size-14">
                   {{ownerInfo.nick_name}}
                 </view>
-                <view class="font-size-12 grey-font text-oneline">
+                <view class="font-size-14 grey-font text-oneline">
                   {{ownerInfo.signature}}
                 </view>
               </view>

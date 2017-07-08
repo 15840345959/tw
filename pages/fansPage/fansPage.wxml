@@ -1,0 +1,29 @@
+<import src="/pages/templates/userListTpl/userListTpl.wxml" />
+
+<view class="page white-bg" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__hd">
+  </view>
+  <view class="page__bd">
+    <view wx:if="{{showTag == 1}}" class="">
+      <!--粉丝列表-->
+      <block wx:for="{{fansUserInfo}}">
+        <template wx:if="{{self_flag}}" is="myFansList" data="{{...item}}" />
+        <template wx:else is="fansList" data="{{...item}}" />
+      </block>
+    </view>
+
+
+    <!--没有粉丝-->
+    <view wx:if="{{showTag == 2}}">
+      <view style="position: absolute;top:80px;width:100%;" class="text-center">
+        <image src="../../images/logo_c.png" class="head-image-larb"></image>
+      </view>
+      <view style="position: absolute;top:225px;width:100%;" class="text-center">
+        <text class="font-size-18">发布作品，让更多的人了解你</text>
+      </view>
+      <view style="position: absolute;top:255px;width:100%;" class="text-center">
+        <text class="font-size-12 grey-font">记录/分享/推广/交流</text>
+      </view>
+    </view>
+  </view>
+</view>

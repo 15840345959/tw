@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/gzPage/gzPage",
+    "pages/fansPage/fansPage",
     "pages/search/search",
     "pages/upage/upage",
     "pages/paint/paint",

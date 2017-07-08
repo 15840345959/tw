@@ -1,0 +1,131 @@
+<!--我的粉丝-->
+<template name="myFansList">
+  <!--粉丝列表-->
+  <view class="">
+    <view class="weui-flex margin-left-15 margin-right-15 border-bottom-lg padding-top-10 padding-bottom-10">
+      <view>
+        <view class="placeholder">
+          <image class="weui-media-box__thumb head-image-mid " src=" {{userInfo.avatar}}" catchtap="onUserClick" data-user-id="{{userInfo.id}}" />
+        </view>
+      </view>
+      <view class="weui-flex__item">
+        <view class="placeholder">
+          <view class="margin-left-15">
+            <view class="font-size-14"> {{userInfo.nick_name}}</view>
+            <view wx:if="{{userInfo.signature.length>0}}" class="font-size-12 grey-font text-oneline">
+              {{userInfo.signature}}
+            </view>
+            <view wx:else class="font-size-12 grey-font text-oneline">
+              记录/分享/推广/交流/分投
+            </view>
+          </view>
+        </view>
+      </view>
+      <view>
+        <view class="placeholder">
+          <view catchtap="onGZClick" data-user-id="{{userInfo.id}}" class="pra-btn white-font font-size-12 margin-top-10 margin-right-5">关注</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+
+
+<!--粉丝-->
+<template name="fansList">
+  <!--粉丝列表-->
+  <view class="">
+    <view class="weui-flex margin-left-15 margin-right-15 border-bottom-lg padding-top-10 padding-bottom-10">
+      <view>
+        <view class="placeholder">
+          <image class="weui-media-box__thumb head-image-mid " src=" {{userInfo.avatar}}" catchtap="onUserClick" data-user-id="{{userInfo.id}}" />
+        </view>
+      </view>
+      <view class="weui-flex__item">
+        <view class="placeholder">
+          <view class="margin-left-15">
+            <view class="font-size-14"> {{userInfo.nick_name}}</view>
+            <view wx:if="{{userInfo.signature.length>0}}" class="font-size-12 grey-font text-oneline">
+              {{userInfo.signature}}
+            </view>
+            <view wx:else class="font-size-12 grey-font text-oneline">
+              记录/分享/推广/交流/分投
+            </view>
+          </view>
+        </view>
+      </view>
+      <view>
+        <view class="placeholder">
+
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+
+
+<!--我的关注-->
+<template name="myGZList">
+  <!--关注列表-->
+  <view class="">
+    <view class="weui-flex margin-left-15 margin-right-15 border-bottom-lg padding-top-10 padding-bottom-10">
+      <view>
+        <view class="placeholder">
+          <image class="weui-media-box__thumb head-image-mid " src=" {{userInfo.avatar}}" catchtap="onUserClick" data-user-id="{{userInfo.id}}" />
+        </view>
+      </view>
+      <view class="weui-flex__item">
+        <view class="placeholder">
+          <view class="margin-left-15">
+            <view class="font-size-14"> {{userInfo.nick_name}}</view>
+            <view wx:if="{{userInfo.signature.length>0}}" class="font-size-12 grey-font text-oneline">
+              {{userInfo.signature}}
+            </view>
+            <view wx:else class="font-size-12 grey-font text-oneline">
+              记录/分享/推广/交流/分投
+            </view>
+          </view>
+        </view>
+      </view>
+      <view>
+        <view class="placeholder">
+          <view catchtap="onQXGZClick" data-user-id="{{userInfo.id}}" data-index="{{index}}" class="pra-btn white-font font-size-12 margin-top-10 margin-right-5">取消</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+
+<!--关注-->
+<template name="GZList">
+  <!--关注列表-->
+  <view class="">
+    <view class="weui-flex margin-left-15 margin-right-15 border-bottom-lg padding-top-10 padding-bottom-10">
+      <view>
+        <view class="placeholder">
+          <image class="weui-media-box__thumb head-image-mid " src=" {{userInfo.avatar}}" catchtap="onUserClick" data-user-id="{{userInfo.id}}" />
+        </view>
+      </view>
+      <view class="weui-flex__item">
+        <view class="placeholder">
+          <view class="margin-left-15">
+            <view class="font-size-14"> {{userInfo.nick_name}}</view>
+            <view wx:if="{{userInfo.signature.length>0}}" class="font-size-12 grey-font text-oneline">
+              {{userInfo.signature}}
+            </view>
+            <view wx:else class="font-size-12 grey-font text-oneline">
+              记录/分享/推广/交流/分投
+            </view>
+          </view>
+        </view>
+      </view>
+      <view>
+        <view class="placeholder">
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
