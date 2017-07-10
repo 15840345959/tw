@@ -58,7 +58,7 @@
               <view class="mask-div-black-d head-bg"></view>
               <!--操作图标-->
               <view style="position: absolute;top:15px;left:20px;">
-                <image src="../../images/setting_w_icon.png" class="opt-icon-nor"></image>
+                <image src="../../images/setting_w_icon.png" class="opt-icon-nor" catchtap="clickSuggestion"></image>
               </view>
               <view style="position: absolute;top:15px;right:20px;">
                 <button open-type="share" plain="true" style="border: 0px solid #000;">

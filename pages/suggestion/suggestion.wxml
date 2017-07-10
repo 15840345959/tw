@@ -1,0 +1,31 @@
+<view class="page">
+  <!--页头-->
+  <view class="page__hd"></view>
+  <!--主体-->
+  <view class="page__bd page__bd_spacing">
+    <!--反馈-->
+    <view class="weui-cells__title"></view>
+    <view class="weui-cells weui-cells_after-title">
+
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea bindinput="bindsuggestionInput" class="weui-textarea" placeholder="小编会认真查看各位的反馈..." value="{{suggestion}}" style="height: 5.8em" />
+          <view class="weui-textarea-counter">{{suggestion.length}}/300</view>
+        </view>
+      </view>
+    </view>
+    <view class="margin-top-10">
+      <button class="weui-btn margin-left-10 margin-right-10" type="primary" bindtap="clicksuggestion">评论</button>
+    </view>
+
+
+    <!--默认反馈区-->
+    <view class="weui-cells margin-top-15">
+      <block wx:for="{{defSugg}}">
+        <view class="weui-cell grey-font" data-suggestion="{{item}}" bindtap="clickDefComm">
+          {{item}}
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

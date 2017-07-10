@@ -30,7 +30,7 @@
           <view wx:if="{{item.img.length>0}}" class="margin-top-5">
             <image id="{{index}}" src="{{item.img}}" style="width: {{item.imageWidth}}px; height:{{item.imageHeight}}px;" bindload="imageLoad" data-index="{{index}}" data-curr-url="{{item.img}}" bindtap="clickImg"></image>
           </view>
-          <view wx:if="{{item.text.length>0}}" class="font-size-16">
+          <view wx:if="{{item.text.length>0}}" class="font-size-16 margin-top-10 margin-bottom-10">
             {{item.text}}
           </view>
         </block>

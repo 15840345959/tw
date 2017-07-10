@@ -34,6 +34,14 @@ Page({
     //获取图文信息
     vm.getIndexPage()
   },
+  //重新展示
+  onShow: function (e) {
+    console.log("onShow e:" + JSON.stringify(e))
+    //如果显示个人页面
+    if(vm.data.tab_nav == '1'){
+      vm.getUserPage()
+    }
+  },
   //点击搜索
   clickSearch: function (e) {
     console.log(JSON.stringify(e))
@@ -328,4 +336,12 @@ Page({
       })
     }
   },
+  //点击反馈
+  clickSuggestion: function (e) {
+    console.log("clickSuggestion:" + JSON.stringify(e))
+    var targetUrl = util.SUGGESTION_PAGE;
+    wx.navigateTo({
+      url: targetUrl
+    })
+  }
 })

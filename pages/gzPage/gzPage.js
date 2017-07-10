@@ -82,8 +82,9 @@ Page({
       var index = vm.getFansUserInfoIndexByUserId(user_id)
       console.log("before:" + JSON.stringify(vm.data.fansUserInfo) + " index:" + index)
       var fansUserInfoObj = vm.data.fansUserInfo
+      fansUserInfoObj.splice(index, 1);
       vm.setData({
-        fansUserInfo: fansUserInfoObj.splice(index + 1, 1)
+        fansUserInfo: fansUserInfoObj
       })
       console.log("after:" + JSON.stringify(vm.data.fansUserInfo))
       //如果没有关注，则展示逛首页的提示

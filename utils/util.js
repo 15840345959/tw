@@ -215,6 +215,12 @@ function getMyGuanZhu(param, successCallback, errorCallback) {
   wxRequest(SERVER_URL + '/TWServer/APP/getMyGuanZhu.do', param, "GET", successCallback, errorCallback);
 }
 
+
+//意见反馈
+function createSuggestion(param, successCallback, errorCallback) {
+  wxRequest(SERVER_URL + '/TWServer/APP/createSuggestion.do', param, "GET", successCallback, errorCallback);
+}
+
 /////////基本方法///////////////////////////////////////////
 //跳转到inputText页面
 
@@ -492,6 +498,7 @@ module.exports = {
   TWSeting_PAGE: "/pages/sSetting/sSetting",
   FANS_PAGE: "/pages/fansPage/fansPage",
   GZ_PAGE: "/pages/gzPage/gzPage",
+  SUGGESTION_PAGE: "/pages/suggestion/suggestion",
   navigateToInput: navigateToInput,
   navigateToLogin: navigateToLogin,
   showLoading: showLoading,
@@ -530,5 +537,6 @@ module.exports = {
   getMusicInfos: getMusicInfos,
   getTWDetailInfoBySearchWord: getTWDetailInfoBySearchWord,
   getMyFans: getMyFans,
-  getMyGuanZhu: getMyGuanZhu
+  getMyGuanZhu: getMyGuanZhu,
+  createSuggestion: createSuggestion
 }
